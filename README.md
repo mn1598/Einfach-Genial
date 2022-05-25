@@ -1,2 +1,2 @@
 # Bachelorthesis
-"Genial Daneben"
+"Einfach Genial"
