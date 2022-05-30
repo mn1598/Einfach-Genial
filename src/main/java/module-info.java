@@ -7,4 +7,8 @@ module com.example.bachelorthesis {
 
     opens com.example.bachelorthesis to javafx.fxml;
     exports com.example.bachelorthesis;
+    exports com.example.bachelorthesis.gui;
+    opens com.example.bachelorthesis.gui to javafx.fxml;
+    exports com.example.bachelorthesis.controller;
+    opens com.example.bachelorthesis.controller to javafx.fxml;
 }
