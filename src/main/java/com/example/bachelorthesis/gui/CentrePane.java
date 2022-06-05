@@ -65,6 +65,6 @@ public class CentrePane extends GridPane {
             this.addRow(i, rows[i]);
         }
         this.setGridLinesVisible(false);
-        this.setVgap(-20);
+        this.setVgap(-22);
     }
 }

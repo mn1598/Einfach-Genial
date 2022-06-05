@@ -17,7 +17,7 @@ public class SidePane extends AnchorPane {
     private Label scoreLabel;
 
     public SidePane() {
-        this.setPrefWidth(100);
+        this.setPrefWidth(180);
         this.setHeight(700);
         RadioButton greedyRadio = new RadioButton("Greedy");
         ToggleGroup algorithmGroup = new ToggleGroup();

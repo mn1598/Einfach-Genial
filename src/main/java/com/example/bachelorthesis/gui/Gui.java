@@ -18,7 +18,7 @@ public class Gui extends Application {
         int width = 4;
         CentrePane pane = new CentrePane();
         borderPane.setCenter(pane);
-        Scene content = new Scene(borderPane, 800, 600);
+        Scene content = new Scene(borderPane, 1100, 900);
         stage.setScene(content);
 
 
