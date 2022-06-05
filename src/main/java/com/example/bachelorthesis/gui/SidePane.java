@@ -23,6 +23,10 @@ public class SidePane extends AnchorPane {
         ToggleGroup algorithmGroup = new ToggleGroup();
         greedyRadio.setToggleGroup(algorithmGroup);
         this.getChildren().add(greedyRadio);
+        RadioButton astartRadio = new RadioButton(("A*"));
+        astartRadio.setLayoutY(20);
+        astartRadio.setToggleGroup(algorithmGroup);
+        this.getChildren().add(astartRadio);
 
         avgTimeLabel = new Label();
         maxTimeLabel = new Label();
