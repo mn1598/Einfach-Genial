@@ -1,9 +1,13 @@
 package com.example.bachelorthesis.gui;
 
+import com.example.bachelorthesis.controller.Controller;
+import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Font;
 
 public class SidePane extends AnchorPane {
 
@@ -17,21 +21,57 @@ public class SidePane extends AnchorPane {
     private Label scoreLabel;
 
     public SidePane() {
+        Label settingsLabel = new Label("Choose Search Method");
+        settingsLabel.setFont(new Font(20));
+        this.getChildren().add(settingsLabel);
+        settingsLabel.setLayoutX(20);
         this.setPrefWidth(180);
         this.setHeight(700);
+
         RadioButton greedyRadio = new RadioButton("Greedy");
         ToggleGroup algorithmGroup = new ToggleGroup();
         greedyRadio.setToggleGroup(algorithmGroup);
+        greedyRadio.setLayoutY(30);
+        greedyRadio.setLayoutX(20);
+        greedyRadio.setSelected(true);
         this.getChildren().add(greedyRadio);
         RadioButton astartRadio = new RadioButton(("A*"));
-        astartRadio.setLayoutY(20);
+        astartRadio.setLayoutY(50);
+        astartRadio.setLayoutX(20);
         astartRadio.setToggleGroup(algorithmGroup);
         this.getChildren().add(astartRadio);
+        RadioButton mctsRadio = new RadioButton("MCTS");
+        mctsRadio.setLayoutY((70));
+        mctsRadio.setLayoutX(20);
+        mctsRadio.setToggleGroup(algorithmGroup);
+        this.getChildren().add(mctsRadio);
+
+        Button startButton = new Button("Start Simulation");
+        startButton.setLayoutX((20));
+        startButton.setLayoutY(90);
+        this.getChildren().add(startButton);
+        startButton.setOnAction(x ->{
+            if(greedyRadio.isSelected()){
+
+            } else if (astartRadio.isSelected()){
+
+            } else if (mctsRadio.isSelected()){
+
+            }
+        });
+
+        Label resultLabel = new Label("Results");
+        resultLabel.setLayoutX(20);
+        resultLabel.setLayoutY(130);
+        resultLabel.setFont(new Font(22));
+        this.getChildren().add(resultLabel);
 
         avgTimeLabel = new Label();
         maxTimeLabel = new Label();
         totalTimeLabel = new Label();
         scoreLabel = new Label();
+
+
     }
 
     public void setLabelText(int avg, int max, int total, int score) {

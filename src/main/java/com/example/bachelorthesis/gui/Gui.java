@@ -2,6 +2,7 @@ package com.example.bachelorthesis.gui;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -19,6 +20,8 @@ public class Gui extends Application {
         CentrePane pane = new CentrePane();
         borderPane.setCenter(pane);
         Scene content = new Scene(borderPane, 1100, 900);
+        borderPane.setTop(new AnchorPane());
+        ((AnchorPane) borderPane.getTop()).setPrefHeight(20);
         stage.setScene(content);
 
 
