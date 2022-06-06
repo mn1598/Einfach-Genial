@@ -67,9 +67,25 @@ public class SidePane extends AnchorPane {
         this.getChildren().add(resultLabel);
 
         avgTimeLabel = new Label();
+        avgTimeLabel.setLayoutY(150);
+        avgTimeLabel.setLayoutX(20);
         maxTimeLabel = new Label();
+        maxTimeLabel.setLayoutY(170);
+        maxTimeLabel.setLayoutX(20);
         totalTimeLabel = new Label();
+        totalTimeLabel.setLayoutY(190);
+        totalTimeLabel.setLayoutX(20);
         scoreLabel = new Label();
+        scoreLabel.setLayoutY(210);
+        scoreLabel.setLayoutX(20);
+
+        Button resetButton = new Button("Reset");
+        resetButton.setLayoutY(230);
+        resetButton.setLayoutX(20);
+        resetButton.setOnAction(x -> {
+
+        });
+        this.getChildren().addAll(avgTimeLabel, maxTimeLabel, totalTimeLabel, scoreLabel, resetButton);
 
 
     }
