@@ -1,7 +1,9 @@
 package com.example.bachelorthesis.gui;
 
-import com.example.bachelorthesis.controller.Controller;
-import javafx.geometry.Insets;
+import com.example.bachelorthesis.ai.AI;
+import com.example.bachelorthesis.ai.AStar;
+import com.example.bachelorthesis.ai.Greedy;
+import com.example.bachelorthesis.ai.MCTS;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -52,13 +54,15 @@ public class SidePane extends AnchorPane {
         this.getChildren().add(startButton);
         startButton.setOnAction(x ->{
             System.out.println("started simulation.");
+            AI ai = null;
             if(greedyRadio.isSelected()){
-
+                ai = new Greedy();
             } else if (astartRadio.isSelected()){
-
+                ai = new AStar();
             } else if (mctsRadio.isSelected()){
-
+                ai = new MCTS();
             }
+            ai.start();
         });
 
         Label resultLabel = new Label("Results");

@@ -9,6 +9,7 @@ public class Game {
 
     private Game instance;
     private ArrayList<Stone> stones;
+    private Color[][] gameBoard;
 
     private Game() {
         stones = new ArrayList<>();
@@ -29,38 +30,45 @@ public class Game {
                 stones.add(new Stone(Color.RED, Color.YELLOW));
             } else if (i >= 36 && i < 42) {
                 stones.add(new Stone(Color.RED, Color.BLUE));
-            } else if (i>= 42 && i < 48){
+            } else if (i >= 42 && i < 48) {
                 stones.add(new Stone(Color.RED, Color.GREEN));
-            } else if (i >= 48 && i < 54){
+            } else if (i >= 48 && i < 54) {
                 stones.add(new Stone(Color.RED, Color.ORANGE));
-            } else if (i >= 54 && i < 60){
+            } else if (i >= 54 && i < 60) {
                 stones.add(new Stone(Color.RED, Color.PURPLE));
             } else if (i >= 60 && i < 66) {
                 stones.add(new Stone(Color.YELLOW, Color.ORANGE));
             } else if (i >= 66 && i < 72) {
                 stones.add(new Stone(Color.YELLOW, Color.PURPLE));
-            } else if(i >= 72 && i < 78) {
+            } else if (i >= 72 && i < 78) {
                 stones.add(new Stone(Color.YELLOW, Color.BLUE));
-            } else if (i >= 78 && i < 84){
+            } else if (i >= 78 && i < 84) {
                 stones.add(new Stone(Color.YELLOW, Color.GREEN));
-            } else if ( i >= 84 && i < 90) {
+            } else if (i >= 84 && i < 90) {
                 stones.add(new Stone(Color.GREEN, Color.PURPLE));
-            } else if (i >= 90 && i < 96){
+            } else if (i >= 90 && i < 96) {
                 stones.add(new Stone(Color.GREEN, Color.BLUE));
-            } else if (i >= 96 && i < 102){
+            } else if (i >= 96 && i < 102) {
                 stones.add(new Stone(Color.GREEN, Color.ORANGE));
             } else if (i <= 102 && i > 108) {
                 stones.add(new Stone(Color.ORANGE, Color.PURPLE));
-            } else if (i >= 108 && i < 114){
+            } else if (i >= 108 && i < 114) {
                 stones.add(new Stone(Color.ORANGE, Color.BLUE));
-            } else if ( i >= 114 && i < 120){
-                stones.add(new Stone (Color.BLUE, Color.PURPLE));
+            } else if (i >= 114 && i < 120) {
+                stones.add(new Stone(Color.BLUE, Color.PURPLE));
             }
+        }
+
+        // gameBoard array of all colors
+        gameBoard = new Color[11][];
+        for (int i = 0; i < 6; i++) {
+            gameBoard[i] = new Color[5 + i];
+            gameBoard[11 - i - 1] = new Color[5 + i];
         }
     }
 
     public Game getInstance() {
-        if(instance == null){
+        if (instance == null) {
             instance = new Game();
         }
         return instance;
@@ -71,7 +79,7 @@ public class Game {
         return stones.remove(rdm.nextInt());
     }
 
-    public void resetGame(){
+    public void resetGame() {
         instance = new Game();
     }
 }

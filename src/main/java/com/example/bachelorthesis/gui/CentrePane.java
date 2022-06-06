@@ -3,11 +3,8 @@ package com.example.bachelorthesis.gui;
 import com.example.bachelorthesis.game.Rotation;
 import com.example.bachelorthesis.game.Stone;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
-import javafx.scene.shape.Polyline;
 
 public class CentrePane extends GridPane {
 
@@ -41,18 +38,6 @@ public class CentrePane extends GridPane {
             offset[11 - i - 1] = offset[i];
         }
 
-//        for(int i = 0; i < 6; i++){
-//            rows[0][i].getPoints().addAll(new Double[]{
-//                    40.0 + i*10 + offset[0] * 20, 0.0,
-//                    80.0 + i*10 + offset[0] * 20, 20.0,
-//                    80.0 + i*10 + offset[0] * 20, 70.0,
-//                    40.0 + i*10 + offset[0] * 20, 90.0,
-//                    0.0 + i*10 + offset[0] * 20, 70.0,
-//                    0.0 + i*10 + offset[0] * 20, 20.0,
-//            });
-//            rows[0][i].setStroke(Color.BLACK);
-//            rows[0][i].setFill(Color.WHITE);
-//        }
         for (int i = 0; i < 11; i++) {
             for (int j = 0; j < rows[i].length; j++) {
                 rows[i][j].getPoints().addAll(new Double[]{

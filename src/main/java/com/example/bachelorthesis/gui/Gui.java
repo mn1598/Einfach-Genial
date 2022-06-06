@@ -24,7 +24,6 @@ public class Gui extends Application {
         ((AnchorPane) borderPane.getTop()).setPrefHeight(20);
         stage.setScene(content);
 
-
         stage.show();
     }
 
