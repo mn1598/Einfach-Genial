@@ -51,6 +51,7 @@ public class SidePane extends AnchorPane {
         startButton.setLayoutY(90);
         this.getChildren().add(startButton);
         startButton.setOnAction(x ->{
+            System.out.println("started simulation.");
             if(greedyRadio.isSelected()){
 
             } else if (astartRadio.isSelected()){
