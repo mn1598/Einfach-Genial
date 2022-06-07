@@ -7,11 +7,10 @@ import java.util.Random;
 
 public class Game {
 
-    private Game instance;
     private ArrayList<Stone> stones;
     private Color[][] gameBoard;
 
-    private Game() {
+    public Game() {
         stones = new ArrayList<>();
         for (int i = 0; i < 120; i++) {
             if (i < 5) {
@@ -67,19 +66,12 @@ public class Game {
         }
     }
 
-    public Game getInstance() {
-        if (instance == null) {
-            instance = new Game();
-        }
-        return instance;
+    public boolean getFinished() {
+        return stones.size() == 0? true: false;
     }
 
     public Stone drawStone() {
-        Random rdm = new Random(120);
-        return stones.remove(rdm.nextInt());
-    }
-
-    public void resetGame() {
-        instance = new Game();
+        Random rdm = new Random();
+        return stones.remove(rdm.nextInt(stones.size()));
     }
 }
