@@ -10,14 +10,16 @@ import java.io.IOException;
 
 public class Gui extends Application {
 
+    private CentrePane pane;
+
     @Override
     public void start(Stage stage) throws IOException {
         BorderPane borderPane = new BorderPane();
-        SidePane sidePane = new SidePane();
+        SidePane sidePane = new SidePane(this);
         borderPane.setLeft(sidePane);
         int height = 6;
         int width = 4;
-        CentrePane pane = new CentrePane();
+        pane = new CentrePane(this);
         borderPane.setCenter(pane);
         Scene content = new Scene(borderPane, 1200, 900);
         borderPane.setTop(new AnchorPane());
@@ -25,6 +27,14 @@ public class Gui extends Application {
         stage.setScene(content);
 
         stage.show();
+    }
+
+    public CentrePane getPane(){
+        return pane;
+    }
+
+    public void reset(){
+        this.pane = new CentrePane(this);
     }
 
     public static void main(String[] args) {

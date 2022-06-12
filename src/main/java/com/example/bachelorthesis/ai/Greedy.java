@@ -1,9 +1,12 @@
 package com.example.bachelorthesis.ai;
 
 import com.example.bachelorthesis.game.Game;
+import com.example.bachelorthesis.game.Rotation;
 import com.example.bachelorthesis.game.Stone;
+import com.example.bachelorthesis.gui.Gui;
 import javafx.scene.paint.Color;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class Greedy implements AI {
@@ -11,14 +14,19 @@ public class Greedy implements AI {
     List<State> todo;
     State state;
     Game game;
+    Gui gui;
 
-    public Greedy() {
+    public Greedy(Gui gui) {
         state = new State();
         game = new Game();
+        todo = new LinkedList<>();
+        Stone stone = game.drawStone();
+        this.gui = gui;
     }
 
     @Override
     public void start() {
+        gui.getPane().putStoneOnField(0,1, game.drawStone(), Rotation.NONE);
         Stone stone;
         while (!game.getFinished()) {
             stone = game.drawStone();
@@ -27,6 +35,7 @@ public class Greedy implements AI {
             if (stone.containsColor(color)) {
                 // use this to maximize points of lowest color
             } // maximize next lowest color
+
         }
     }
 

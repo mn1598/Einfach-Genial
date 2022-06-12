@@ -9,8 +9,9 @@ import javafx.scene.shape.Polygon;
 public class CentrePane extends GridPane {
 
     private Polygon[][] rows;
+    private Gui gui;
 
-    public CentrePane() {
+    public CentrePane(Gui gui) {
         rows = new Polygon[][]{
                 {new Polygon(), new Polygon(), new Polygon(), new Polygon(), new Polygon(), new Polygon()},
                 {new Polygon(), new Polygon(), new Polygon(), new Polygon(), new Polygon(), new Polygon(), new Polygon()},

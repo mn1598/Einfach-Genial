@@ -22,7 +22,10 @@ public class SidePane extends AnchorPane {
     private Label totalTimeLabel;
     private Label scoreLabel;
 
-    public SidePane() {
+    private Gui gui;
+
+    public SidePane(Gui gui) {
+        this.gui = gui;
         Label settingsLabel = new Label("Choose Search Method");
         settingsLabel.setFont(new Font(20));
         this.getChildren().add(settingsLabel);
@@ -56,11 +59,11 @@ public class SidePane extends AnchorPane {
             System.out.println("started simulation.");
             AI ai = null;
             if(greedyRadio.isSelected()){
-                ai = new Greedy();
+                ai = new Greedy(gui);
             } else if (astartRadio.isSelected()){
-                ai = new AStar();
+                ai = new AStar(gui);
             } else if (mctsRadio.isSelected()){
-                ai = new MCTS();
+                ai = new MCTS(gui);
             }
             ai.start();
         });
@@ -88,7 +91,7 @@ public class SidePane extends AnchorPane {
         resetButton.setLayoutY(230);
         resetButton.setLayoutX(20);
         resetButton.setOnAction(x -> {
-
+            gui.reset();
         });
         this.getChildren().addAll(avgTimeLabel, maxTimeLabel, totalTimeLabel, scoreLabel, resetButton);
 
