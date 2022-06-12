@@ -61,7 +61,12 @@ public class CentrePane extends GridPane {
         this.initGameBoard();
     }
 
-    private void initGameBoard() {
+    public void initGameBoard() {
+        for (int i = 0; i < rows.length; i++) {
+            for (int j = 0; j < rows[i].length; j++) {
+                rows[i][j].setFill(Color.WHITE);
+            }
+        }
         rows[0][0].setFill(Color.RED);
         rows[0][5].setFill(Color.GREEN);
         rows[5][0].setFill(Color.PURPLE);

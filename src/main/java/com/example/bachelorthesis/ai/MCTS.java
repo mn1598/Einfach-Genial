@@ -2,9 +2,7 @@ package com.example.bachelorthesis.ai;
 
 import com.example.bachelorthesis.gui.Gui;
 
-public class MCTS implements AI{
-
-    private Gui gui;
+public class MCTS extends AI{
 
     public MCTS (Gui gui){
         this.gui = gui;

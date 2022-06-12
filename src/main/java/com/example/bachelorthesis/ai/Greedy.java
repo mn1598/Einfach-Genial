@@ -9,12 +9,9 @@ import javafx.scene.paint.Color;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Greedy implements AI {
+public class Greedy extends AI {
 
-    List<State> todo;
-    State state;
-    Game game;
-    Gui gui;
+
 
     public Greedy(Gui gui) {
         state = new State();

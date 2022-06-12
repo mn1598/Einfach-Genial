@@ -1,10 +1,22 @@
 package com.example.bachelorthesis.ai;
 
-public interface AI {
+import com.example.bachelorthesis.game.Game;
+import com.example.bachelorthesis.gui.Gui;
 
-    public State state = new State();
+import java.util.List;
 
-    public void start();
+public abstract class AI {
 
+    public State state;
+    public char[][] gameBoard;
 
+    List<State> todo;
+    Game game;
+    Gui gui;
+
+    public abstract void start();
+
+    public void reset() {
+
+    }
 }

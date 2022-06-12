@@ -34,7 +34,7 @@ public class Gui extends Application {
     }
 
     public void reset(){
-        this.pane = new CentrePane(this);
+        this.pane.initGameBoard();
     }
 
     public static void main(String[] args) {

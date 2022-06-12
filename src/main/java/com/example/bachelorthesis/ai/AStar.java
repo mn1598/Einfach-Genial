@@ -2,8 +2,8 @@ package com.example.bachelorthesis.ai;
 
 import com.example.bachelorthesis.gui.Gui;
 
-public class AStar implements AI{
-    private Gui gui;
+public class AStar extends AI{
+
     public AStar(Gui gui) {
     }
 
