@@ -13,7 +13,7 @@ public class Gui extends Application {
     private CentrePane pane;
 
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage)  {
         BorderPane borderPane = new BorderPane();
         SidePane sidePane = new SidePane(this);
         borderPane.setLeft(sidePane);
