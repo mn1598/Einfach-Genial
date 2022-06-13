@@ -1,4 +1,4 @@
-package com.example.bachelorthesis.gui;
+package com.example.bachelorthesis.view;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -6,16 +6,15 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
 public class Gui extends Application {
 
     private CentrePane pane;
+    private SidePane sidePane;
 
     @Override
     public void start(Stage stage)  {
         BorderPane borderPane = new BorderPane();
-        SidePane sidePane = new SidePane(this);
+        sidePane = new SidePane(this);
         borderPane.setLeft(sidePane);
         int height = 6;
         int width = 4;
@@ -31,6 +30,10 @@ public class Gui extends Application {
 
     public CentrePane getPane(){
         return pane;
+    }
+
+    public SidePane getSidePane() {
+        return sidePane;
     }
 
     public void reset(){

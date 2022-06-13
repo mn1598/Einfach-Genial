@@ -1,7 +1,7 @@
-package com.example.bachelorthesis.gui;
+package com.example.bachelorthesis.view;
 
-import com.example.bachelorthesis.game.Rotation;
-import com.example.bachelorthesis.game.Stone;
+import com.example.bachelorthesis.model.Rotation;
+import com.example.bachelorthesis.model.Stone;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;

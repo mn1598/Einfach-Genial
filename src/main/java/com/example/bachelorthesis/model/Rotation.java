@@ -1,4 +1,4 @@
-package com.example.bachelorthesis.game;
+package com.example.bachelorthesis.model;
 
 public enum Rotation {
 

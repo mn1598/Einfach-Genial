@@ -1,9 +1,10 @@
-package com.example.bachelorthesis.gui;
+package com.example.bachelorthesis.view;
 
 import com.example.bachelorthesis.ai.AI;
 import com.example.bachelorthesis.ai.AStar;
 import com.example.bachelorthesis.ai.Greedy;
 import com.example.bachelorthesis.ai.MCTS;
+import com.example.bachelorthesis.controller.Controller;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -23,6 +24,11 @@ public class SidePane extends AnchorPane {
     private Label scoreLabel;
 
     private Gui gui;
+    private Controller controller;
+
+    public RadioButton greedyRadio;
+    public RadioButton astartRadio;
+    public RadioButton mctsRadio;
 
     public SidePane(Gui gui) {
         this.gui = gui;
@@ -33,19 +39,21 @@ public class SidePane extends AnchorPane {
         this.setPrefWidth(180);
         this.setHeight(700);
 
-        RadioButton greedyRadio = new RadioButton("Greedy");
+        controller = new Controller(gui);
+
+        greedyRadio = new RadioButton("Greedy");
         ToggleGroup algorithmGroup = new ToggleGroup();
         greedyRadio.setToggleGroup(algorithmGroup);
         greedyRadio.setLayoutY(30);
         greedyRadio.setLayoutX(20);
         greedyRadio.setSelected(true);
         this.getChildren().add(greedyRadio);
-        RadioButton astartRadio = new RadioButton(("A*"));
+        astartRadio = new RadioButton(("A*"));
         astartRadio.setLayoutY(50);
         astartRadio.setLayoutX(20);
         astartRadio.setToggleGroup(algorithmGroup);
         this.getChildren().add(astartRadio);
-        RadioButton mctsRadio = new RadioButton("MCTS");
+        mctsRadio = new RadioButton("MCTS");
         mctsRadio.setLayoutY((70));
         mctsRadio.setLayoutX(20);
         mctsRadio.setToggleGroup(algorithmGroup);
@@ -56,16 +64,7 @@ public class SidePane extends AnchorPane {
         startButton.setLayoutY(90);
         this.getChildren().add(startButton);
         startButton.setOnAction(x ->{
-            System.out.println("started simulation.");
-            AI ai = null;
-            if(greedyRadio.isSelected()){
-                ai = new Greedy(gui);
-            } else if (astartRadio.isSelected()){
-                ai = new AStar(gui);
-            } else if (mctsRadio.isSelected()){
-                ai = new MCTS(gui);
-            }
-            ai.start();
+            controller.clickOnStart();
         });
 
         Label resultLabel = new Label("Results");
@@ -91,7 +90,7 @@ public class SidePane extends AnchorPane {
         resetButton.setLayoutY(230);
         resetButton.setLayoutX(20);
         resetButton.setOnAction(x -> {
-            gui.reset();
+            controller.clickOnReset();
         });
         this.getChildren().addAll(avgTimeLabel, maxTimeLabel, totalTimeLabel, scoreLabel, resetButton);
 

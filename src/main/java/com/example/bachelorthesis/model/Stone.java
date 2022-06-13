@@ -1,4 +1,4 @@
-package com.example.bachelorthesis.game;
+package com.example.bachelorthesis.model;
 
 import javafx.scene.paint.Color;
 

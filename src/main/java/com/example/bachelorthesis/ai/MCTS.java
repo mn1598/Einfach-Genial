@@ -1,6 +1,6 @@
 package com.example.bachelorthesis.ai;
 
-import com.example.bachelorthesis.gui.Gui;
+import com.example.bachelorthesis.view.Gui;
 
 public class MCTS extends AI{
 
