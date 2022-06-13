@@ -1,6 +1,7 @@
 package com.example.bachelorthesis.ai;
 
 import com.example.bachelorthesis.model.Game;
+import com.example.bachelorthesis.model.State;
 import com.example.bachelorthesis.view.Gui;
 
 import java.util.List;

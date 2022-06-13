@@ -1,8 +1,4 @@
-package com.example.bachelorthesis.ai;
-
-import com.example.bachelorthesis.model.ColorEnum;
-import com.example.bachelorthesis.model.Rotation;
-import com.example.bachelorthesis.model.Stone;
+package com.example.bachelorthesis.model;
 
 import java.util.Collections;
 import java.util.HashMap;

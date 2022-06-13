@@ -2,6 +2,7 @@ package com.example.bachelorthesis.ai;
 
 import com.example.bachelorthesis.model.ColorEnum;
 import com.example.bachelorthesis.model.Game;
+import com.example.bachelorthesis.model.State;
 import com.example.bachelorthesis.model.Stone;
 import com.example.bachelorthesis.view.Gui;
 
