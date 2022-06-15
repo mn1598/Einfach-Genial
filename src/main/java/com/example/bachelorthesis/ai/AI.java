@@ -9,7 +9,7 @@ import java.util.List;
 public abstract class AI {
 
     public State state;
-    public char[][] gameBoard;
+    //public char[][] gameBoard;
 
     List<State> todo;
     Game game;

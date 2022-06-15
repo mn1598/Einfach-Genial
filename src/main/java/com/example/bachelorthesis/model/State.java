@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class State {
     private int lowestScore;
-    private char[][] gameBoard;
+    public char[][] gameBoard;
     private HashMap<ColorEnum, Integer> colorScores;
     private int tilesDrawed;
     private int fieldLeft;
