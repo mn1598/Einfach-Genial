@@ -5,18 +5,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class State {
-    private int lowestScore;
+    private int lowestColorScore; // heuristic value
+    private ColorEnum lowestColor;
     public char[][] gameBoard;
     private HashMap<ColorEnum, Integer> colorScores;
-    private int tilesDrawed;
-    private int fieldLeft;
+
+    private int lowestColorLongestSequence; // bisherige Kosten fuer A*
+    private int estimatedTotalCosts;
+
     private boolean first;
-    private ColorEnum lowestColor;
+    private boolean terminal;
+
+    private int tilesDrawed; // brauch ich das?
+    private int fieldLeft;
 
     public State() {
-        lowestScore = 0;
+        lowestColorScore = 0;
         gameBoard = new char[11][];
-        initGameBoard();
+        initGameBoard(); // nur initialzustand, sonst als kind betrachten
 
         colorScores = new HashMap<ColorEnum, Integer>();
         colorScores.put(ColorEnum.RED, 0);
@@ -38,7 +44,7 @@ public class State {
 
     public ColorEnum getLowestColor() {
         int min = Collections.min(colorScores.values());
-        this.lowestScore = min;
+        this.lowestColorScore = min;
 
         Map.Entry<ColorEnum, Integer> minimum = null;
         for (Map.Entry<ColorEnum, Integer> entry : colorScores.entrySet()) {
