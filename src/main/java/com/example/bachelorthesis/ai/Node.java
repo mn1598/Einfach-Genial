@@ -5,20 +5,20 @@ import com.example.bachelorthesis.model.State;
 public class Node {
 
     State state;
-    Node root;
+    Node parent;
     Node leftChild;
     Node rightChild;
     int avgScore;
     int numberOfSimulations;
 
-    public Node(Node root) {
-        this.root = root;
-        state = root.state;
+    public Node(Node parent) {
+        this.parent = parent;
+        state = parent.state;
     }
 
     public Node(){
         state = new State();
-        root = null; // indicates that this node is not just a parent but the overall root of the tree
+        parent = null; // indicates that this node is not just a parent but the overall root of the tree
     }
 
     public void expand(){
