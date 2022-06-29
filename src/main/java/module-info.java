@@ -4,6 +4,7 @@ module com.example.bachelorthesis {
 
     requires org.controlsfx.controls;
     requires org.kordamp.bootstrapfx.core;
+    requires junit;
 
     opens com.example.bachelorthesis to javafx.fxml;
     exports com.example.bachelorthesis.view;

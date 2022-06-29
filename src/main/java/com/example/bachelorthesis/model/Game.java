@@ -7,7 +7,7 @@ import java.util.Random;
 
 public class Game {
 
-    private ArrayList<Stone> stones;
+    private static ArrayList<Stone> stones;
     private Color[][] gameBoard;
 
     public static final int[] COORD_RED = {0,0};
@@ -78,7 +78,7 @@ public class Game {
         return stones.size() == 0? true: false;
     }
 
-    public Stone drawStone() {
+    public static Stone drawStone() {
         Random rdm = new Random();
         return stones.remove(rdm.nextInt(stones.size()));
     }

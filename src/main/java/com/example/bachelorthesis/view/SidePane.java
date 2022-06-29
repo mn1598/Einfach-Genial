@@ -1,9 +1,5 @@
 package com.example.bachelorthesis.view;
 
-import com.example.bachelorthesis.ai.AI;
-import com.example.bachelorthesis.ai.AStar;
-import com.example.bachelorthesis.ai.Greedy;
-import com.example.bachelorthesis.ai.MCTS;
 import com.example.bachelorthesis.controller.Controller;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -32,7 +28,7 @@ public class SidePane extends AnchorPane {
 
     public SidePane(Gui gui) {
         this.gui = gui;
-        Label settingsLabel = new Label("Choose Search Method");
+        Label settingsLabel = new Label("MCTS Simulation");
         settingsLabel.setFont(new Font(20));
         this.getChildren().add(settingsLabel);
         settingsLabel.setLayoutX(20);
@@ -41,23 +37,23 @@ public class SidePane extends AnchorPane {
 
         controller = new Controller(gui);
 
-        greedyRadio = new RadioButton("Greedy");
-        ToggleGroup algorithmGroup = new ToggleGroup();
-        greedyRadio.setToggleGroup(algorithmGroup);
-        greedyRadio.setLayoutY(30);
-        greedyRadio.setLayoutX(20);
-        greedyRadio.setSelected(true);
-        this.getChildren().add(greedyRadio);
-        astartRadio = new RadioButton(("A*"));
-        astartRadio.setLayoutY(50);
-        astartRadio.setLayoutX(20);
-        astartRadio.setToggleGroup(algorithmGroup);
-        this.getChildren().add(astartRadio);
-        mctsRadio = new RadioButton("MCTS");
-        mctsRadio.setLayoutY((70));
-        mctsRadio.setLayoutX(20);
-        mctsRadio.setToggleGroup(algorithmGroup);
-        this.getChildren().add(mctsRadio);
+//        greedyRadio = new RadioButton("Greedy");
+//        ToggleGroup algorithmGroup = new ToggleGroup();
+//        greedyRadio.setToggleGroup(algorithmGroup);
+//        greedyRadio.setLayoutY(30);
+//        greedyRadio.setLayoutX(20);
+//        greedyRadio.setSelected(true);
+//        this.getChildren().add(greedyRadio);
+//        astartRadio = new RadioButton(("A*"));
+//        astartRadio.setLayoutY(50);
+//        astartRadio.setLayoutX(20);
+//        astartRadio.setToggleGroup(algorithmGroup);
+//        this.getChildren().add(astartRadio);
+//        mctsRadio = new RadioButton("MCTS");
+//        mctsRadio.setLayoutY((70));
+//        mctsRadio.setLayoutX(20);
+//        mctsRadio.setToggleGroup(algorithmGroup);
+//        this.getChildren().add(mctsRadio);
 
         Button startButton = new Button("Start Simulation");
         startButton.setLayoutX((20));

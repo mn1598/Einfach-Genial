@@ -4,8 +4,8 @@ import javafx.scene.paint.Color;
 
 public class Stone {
 
-    private ColorEnum[] stoneColor;
-    private Rotation rotation;
+    public ColorEnum[] stoneColor;
+    public Rotation rotation;
 
     public Stone(Color color1, Color color2) {
         ColorEnum c1 = replaceColor(color1);

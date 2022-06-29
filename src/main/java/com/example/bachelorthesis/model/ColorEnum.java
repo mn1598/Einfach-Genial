@@ -1,5 +1,5 @@
 package com.example.bachelorthesis.model;
 
 public enum ColorEnum {
-    RED,  GREEN, BLUE, ORANGE, YELLOW, PURPLE;
+    NONE, RED,  GREEN, BLUE, ORANGE, YELLOW, PURPLE;
 }

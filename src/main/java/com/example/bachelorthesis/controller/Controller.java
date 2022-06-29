@@ -1,8 +1,5 @@
 package com.example.bachelorthesis.controller;
 
-import com.example.bachelorthesis.ai.AI;
-import com.example.bachelorthesis.ai.AStar;
-import com.example.bachelorthesis.ai.Greedy;
 import com.example.bachelorthesis.ai.MCTS;
 import com.example.bachelorthesis.view.Gui;
 
@@ -16,15 +13,13 @@ public class Controller {
 
     public void clickOnStart(){
         System.out.println("started simulation.");
-        AI ai = null;
-        if(gui.getSidePane().greedyRadio.isSelected()){
-            ai = new Greedy(gui);
-        } else if (gui.getSidePane().astartRadio.isSelected()){
-            ai = new AStar(gui);
-        } else if (gui.getSidePane().mctsRadio.isSelected()){
-            ai = new MCTS(gui);
-        }
+        MCTS ai = new MCTS(gui);
+
         ai.start();
+        for (int i = 0; i < 50; i++){
+            int[] array = ai.randomPosition();
+            System.out.println(array[0] + " " + array[1]);
+        }
     }
 
     public void clickOnReset(){
