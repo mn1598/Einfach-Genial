@@ -1,12 +1,16 @@
 package com.example.bachelorthesis.view;
 
 import com.example.bachelorthesis.controller.Controller;
+import com.example.bachelorthesis.model.ColorEnum;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+
+import java.util.HashMap;
 
 public class SidePane extends AnchorPane {
 
@@ -70,33 +74,35 @@ public class SidePane extends AnchorPane {
         this.getChildren().add(resultLabel);
 
         avgTimeLabel = new Label();
-        avgTimeLabel.setLayoutY(150);
+        avgTimeLabel.setLayoutY(170);
         avgTimeLabel.setLayoutX(20);
         maxTimeLabel = new Label();
-        maxTimeLabel.setLayoutY(170);
+        maxTimeLabel.setLayoutY(190);
         maxTimeLabel.setLayoutX(20);
         totalTimeLabel = new Label();
-        totalTimeLabel.setLayoutY(190);
+        totalTimeLabel.setLayoutY(210);
         totalTimeLabel.setLayoutX(20);
         scoreLabel = new Label();
-        scoreLabel.setLayoutY(210);
+        scoreLabel.setLayoutY(230);
         scoreLabel.setLayoutX(20);
+        scoreLabel.setPrefHeight(300);
 
         Button resetButton = new Button("Reset");
         resetButton.setLayoutY(230);
         resetButton.setLayoutX(20);
-        resetButton.setOnAction(x -> {
-            controller.clickOnReset();
-        });
-        this.getChildren().addAll(avgTimeLabel, maxTimeLabel, totalTimeLabel, scoreLabel, resetButton);
+        this.getChildren().addAll(avgTimeLabel, maxTimeLabel, totalTimeLabel, scoreLabel);
 
 
     }
 
-    public void setLabelText(int avg, int max, int total, int score) {
+    public void setLabelText(int avg, int max, int total, HashMap<ColorEnum, Integer> scores) {
         avgTimeLabel.setText("Average Time: " +  avg + "s");
         maxTimeLabel.setText("Max Time: " + max + "s");
         totalTimeLabel.setText("Total Time: " + total + "s");
-        scoreLabel.setText("Score: " + score + "pts");
+        String scoreText = "";
+        for(ColorEnum color: scores.keySet()){
+            scoreText += color + " :" + scores.get(color) + " Points\n";
+        }
+        scoreLabel.setText(scoreText);
     }
 }

@@ -5,26 +5,20 @@ import com.example.bachelorthesis.view.Gui;
 
 public class Controller {
 
-    private Gui gui;
+    private final Gui gui;
 
     public Controller(Gui gui){
         this.gui = gui;
     }
 
     public void clickOnStart(){
-        System.out.println("started simulation.");
+        gui.reset();
         MCTS ai = new MCTS(gui);
 
         ai.start();
-        for (int i = 0; i < 50; i++){
-            int[] array = ai.randomPosition();
-            System.out.println(array[0] + " " + array[1]);
-        }
     }
 
-    public void clickOnReset(){
-        gui.reset();
-    }
+
 
 
 

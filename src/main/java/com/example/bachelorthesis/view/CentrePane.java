@@ -1,5 +1,6 @@
 package com.example.bachelorthesis.view;
 
+import com.example.bachelorthesis.model.GameBoard;
 import com.example.bachelorthesis.model.Rotation;
 import com.example.bachelorthesis.model.Stone;
 import javafx.scene.layout.GridPane;
@@ -8,10 +9,9 @@ import javafx.scene.shape.Polygon;
 
 public class CentrePane extends GridPane {
 
-    private Polygon[][] rows;
-    private Gui gui;
+    private final Polygon[][] rows;
 
-    public CentrePane(Gui gui) {
+    public CentrePane() {
         rows = new Polygon[][]{
                 {new Polygon(), new Polygon(), new Polygon(), new Polygon(), new Polygon(), new Polygon()},
                 {new Polygon(), new Polygon(), new Polygon(), new Polygon(), new Polygon(), new Polygon(), new Polygon()},
@@ -41,14 +41,12 @@ public class CentrePane extends GridPane {
 
         for (int i = 0; i < 11; i++) {
             for (int j = 0; j < rows[i].length; j++) {
-                rows[i][j].getPoints().addAll(new Double[]{
-                        40.0 + j * 10, 0.0,
+                rows[i][j].getPoints().addAll(40.0 + j * 10, 0.0,
                         80.0 + j * 10, 20.0,
                         80.0 + j * 10, 70.0,
                         40.0 + j * 10, 90.0,
                         0.0 + j * 10, 70.0,
-                        0.0 + j * 10, 20.0,
-                });
+                        0.0 + j * 10, 20.0);
                 rows[i][j].setTranslateX(offset[i] * 40);
                 rows[i][j].setStroke(Color.BLACK);
                 rows[i][j].setStrokeWidth(2.0);
@@ -62,9 +60,9 @@ public class CentrePane extends GridPane {
     }
 
     public void initGameBoard() {
-        for (int i = 0; i < rows.length; i++) {
-            for (int j = 0; j < rows[i].length; j++) {
-                rows[i][j].setFill(Color.WHITE);
+        for (Polygon[] row : rows) {
+            for (Polygon polygon : row) {
+                polygon.setFill(Color.WHITE);
             }
         }
         rows[0][0].setFill(Color.RED);
@@ -75,32 +73,18 @@ public class CentrePane extends GridPane {
         rows[10][5].setFill(Color.ORANGE);
     }
 
-    public boolean putStoneOnField(int i, int j, Stone stone, Rotation rotation) {
-        // check i, j witch rotation out of bounds?
-
-
-        rows[i][j].setFill(stone.getColors()[0]);
-        switch (rotation) {
-            case NONE:
-                rows[i][j + 1].setFill(stone.getColors()[1]);
-                break;
-            case ONE_CLOCKWISE:
-                rows[i + 1][j + 1].setFill(stone.getColors()[1]);
-                break;
-            case TWO_CLOCKWISE:
-                rows[i + 1][j].setFill(stone.getColors()[1]);
-                break;
-            case THREE_CLOCKWISE:
-                rows[i][j - 1].setFill(stone.getColors()[1]);
-                break;
-            case FOUR_CLOCKWISE:
-                rows[i - 1][j - 1].setFill(stone.getColors()[1]);
-                break;
-            case FIVE_CLOCKWISE:
-                rows[i - 1][j].setFill(stone.getColors()[1]);
-                break;
-            default:
+    public void updateBoard(GameBoard board) {
+        for (int i = 0; i < 11; i++) {
+            for (int j = 0; j < this.rows[i].length; j++) {
+                switch (board.representation[i][j]) {
+                    case RED -> rows[i][j].setFill(Color.RED);
+                    case GREEN -> rows[i][j].setFill(Color.GREEN);
+                    case BLUE -> rows[i][j].setFill(Color.BLUE);
+                    case ORANGE -> rows[i][j].setFill(Color.ORANGE);
+                    case YELLOW -> rows[i][j].setFill(Color.YELLOW);
+                    case PURPLE -> rows[i][j].setFill(Color.PURPLE);
+                }
+            }
         }
-        return true;
     }
 }

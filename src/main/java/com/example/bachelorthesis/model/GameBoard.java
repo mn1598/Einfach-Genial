@@ -6,7 +6,6 @@ import java.util.HashMap;
 public class GameBoard {
 
     public ColorEnum[][] representation;
-    public boolean isFull;
 
     public GameBoard(){
         initGameBoard();

@@ -2,39 +2,41 @@ package com.example.bachelorthesis.ai;
 
 import com.example.bachelorthesis.model.State;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Node {
 
     State state;
     Node parent;
-    Node leftChild;
-    Node rightChild;
+    ArrayList<Node> children;
     int avgScore;
     int numberOfSimulations;
 
     public Node(Node parent) {
         this.parent = parent;
         state = parent.state;
+        children = new ArrayList<>();
     }
 
     public Node(){
         state = new State();
         parent = null; // indicates that this node is not just a parent but the overall root of the tree
+        children = new ArrayList<>();
     }
 
-    public void expand(){
-        if(leftChild == null){
-            leftChild = new Node(this);
-        } else if(rightChild == null) {
-            rightChild = new Node(this);
+    public void expand(List<State> nextStates){
+        for(State state: nextStates){
+            Node child = new Node(this);
+            child.state = state;
+            this.children.add(child);
         }
     }
 
     public double calculateUCT(){
-        //classic approach
-        if(leftChild != null && rightChild == null){
-            return Double.POSITIVE_INFINITY;
+        if(state.numberOfVisits == 0){
+            return Integer.MAX_VALUE;
         }
-        double uct = avgScore + Math.sqrt(2) * Math.sqrt(Math.log(root.numberOfSimulations) / numberOfSimulations);
-        return uct;
+        return avgScore + Math.sqrt(2) * Math.sqrt(Math.log(parent.state.numberOfVisits) / state.numberOfVisits);
     }
 }

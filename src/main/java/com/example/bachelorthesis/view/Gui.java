@@ -16,9 +16,7 @@ public class Gui extends Application {
         BorderPane borderPane = new BorderPane();
         sidePane = new SidePane(this);
         borderPane.setLeft(sidePane);
-        int height = 6;
-        int width = 4;
-        pane = new CentrePane(this);
+        pane = new CentrePane();
         borderPane.setCenter(pane);
         Scene content = new Scene(borderPane, 1200, 900);
         borderPane.setTop(new AnchorPane());

@@ -7,15 +7,8 @@ import java.util.Random;
 
 public class Game {
 
-    private static ArrayList<Stone> stones;
+    public static ArrayList<Stone> stones;
     private Color[][] gameBoard;
-
-    public static final int[] COORD_RED = {0,0};
-    public static final int[] COORD_GREEN = {0,5};
-    public static final int[] COORD_BLUE = {5,10};
-    public static final int[] COORD_ORANGE = {10,5};
-    public static final int[] COORD_PURPLE = {10,0};
-    public static final int[] COORD_YELLOW = {5,0};
 
     public Game() {
         stones = new ArrayList<>();
@@ -66,7 +59,6 @@ public class Game {
         }
 
         // gameBoard array of all colors
-        // TODO change to char array
         gameBoard = new Color[11][];
         for (int i = 0; i < 6; i++) {
             gameBoard[i] = new Color[5 + i];
@@ -80,6 +72,9 @@ public class Game {
 
     public static Stone drawStone() {
         Random rdm = new Random();
+        if(stones.size() == 0){
+            return null;
+        }
         return stones.remove(rdm.nextInt(stones.size()));
     }
 }
