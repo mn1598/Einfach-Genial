@@ -8,7 +8,6 @@ import java.util.Random;
 public class Game {
 
     public static ArrayList<Stone> stones;
-    private Color[][] gameBoard;
 
     public Game() {
         stones = new ArrayList<>();
@@ -56,13 +55,6 @@ public class Game {
             } else if (i >= 114 && i < 120) {
                 stones.add(new Stone(Color.BLUE, Color.PURPLE));
             }
-        }
-
-        // gameBoard array of all colors
-        gameBoard = new Color[11][];
-        for (int i = 0; i < 6; i++) {
-            gameBoard[i] = new Color[5 + i];
-            gameBoard[11 - i - 1] = new Color[5 + i];
         }
     }
 
