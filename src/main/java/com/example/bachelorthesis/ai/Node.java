@@ -11,7 +11,6 @@ public class Node {
     Node parent;
     ArrayList<Node> children;
     int avgScore;
-    int numberOfSimulations;
 
     public Node(Node parent) {
         this.parent = parent;

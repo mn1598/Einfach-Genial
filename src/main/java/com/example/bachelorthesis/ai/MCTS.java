@@ -61,7 +61,7 @@ public class MCTS {
                 best.expand(nextStates);
                 System.out.println("Expansion done!");
 
-                // simulation
+                // Simulation
                 // todo mit welchem knoten fuer ich die simulation aus, best hat jetzt schliesslich 444 kinder!!
                 Node simulatedNode = best;
                 int size = best.children.size();
@@ -75,10 +75,13 @@ public class MCTS {
                 backpropagation(nextMove.avgPoints, best);
                 System.out.println("Backpropagation done!");
                 System.out.println(run++ + ". Run complete!");
-                best.state.printBoard();
-                gui.getPane().updateBoard(best.state.gameBoard);
 
                 // todo play the chosen move
+                //  root.getChildwithmaxscore
+                //  root = winner
+                //  updateBoard
+                best.state.printBoard();
+                gui.getPane().updateBoard(best.state.gameBoard);
             }
         }
     }
@@ -147,7 +150,6 @@ public class MCTS {
                     lowestScore = current;
                 }
             }
-
             node.avgScore = lowestScore / node.state.numberOfVisits;
             node = node.parent;
         }
