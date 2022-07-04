@@ -14,6 +14,7 @@ import java.util.List;
 public class Test {
 
     public static void main(String[] args) {
+        Game game = new Game();
         testNextStates();
         testPointCalculation();
     }
@@ -67,15 +68,15 @@ public class Test {
     public static void testNextStates() {
         State state = new State();
 
-        state.putStoneOnField(new Stone(Color.RED, Color.PURPLE), Rotation.TWO_CLOCKWISE, 3, 0);
-        state.putStoneOnField(new Stone(Color.PURPLE, Color.GREEN), Rotation.NONE, 4, 1);
-        state.putStoneOnField(new Stone(Color.GREEN, Color.YELLOW), Rotation.TWO_CLOCKWISE, 7, 2);
-        state.putStoneOnField(new Stone(Color.YELLOW, Color.BLUE), Rotation.NONE, 9, 1);
+        //state.putStoneOnField(new Stone(Color.RED, Color.PURPLE), Rotation.TWO_CLOCKWISE, 3, 0);
+//        state.putStoneOnField(new Stone(Color.PURPLE, Color.GREEN), Rotation.NONE, 4, 1);
+//        state.putStoneOnField(new Stone(Color.GREEN, Color.YELLOW), Rotation.TWO_CLOCKWISE, 7, 2);
+//        state.putStoneOnField(new Stone(Color.YELLOW, Color.BLUE), Rotation.NONE, 9, 1);
 
         state.printBoard();
         System.out.println("----------------------");
         List<State> states = state.nextState();
-
+        System.out.println(states.size());
         states.forEach(x -> {
             x.printBoard();
             x.colorScores.forEach((k, v) -> System.out.println(k + ": " + v));

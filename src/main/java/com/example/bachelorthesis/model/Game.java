@@ -7,7 +7,7 @@ import java.util.Random;
 
 public class Game {
 
-    public static ArrayList<Stone> stones;
+    public ArrayList<Stone> stones;
 
     public Game() {
         stones = new ArrayList<>();
@@ -58,13 +58,20 @@ public class Game {
         }
     }
 
-    public boolean getFinished() {
-        return stones.size() == 0? true: false;
+    public Game(Game game) {
+        this.stones = new ArrayList<>();
+        for(Stone stone: game.stones){
+            this.stones.add(stone);
+        }
     }
 
-    public static Stone drawStone() {
+    public boolean getFinished() {
+        return stones.size() == 0 ? true : false;
+    }
+
+    public Stone drawStone() {
         Random rdm = new Random();
-        if(stones.size() == 0){
+        if (stones.size() == 0) {
             return null;
         }
         return stones.remove(rdm.nextInt(stones.size()));

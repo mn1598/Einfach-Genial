@@ -8,11 +8,14 @@ public class State {
     public Stone currentStone; // stone has been drawed
     public boolean firstMove;
     public int numberOfVisits;
-    public double avgPoints; // avg Points per round (for the lowest color)
+    public double avgScore; // avg Points per round (for the lowest color)
+    public boolean terminal;
+    public Game game;
+    public int numberOfNext;
 
     // "Kopierkonstruktor" fuer Folgezustaende
     public State(State state) {
-
+        game = state.game;
         gameBoard = new GameBoard();
         for(int i = 0; i < state.gameBoard.representation.length; i++){
             for(int j = 0; j < state.gameBoard.representation[i].length; j++){
@@ -39,6 +42,9 @@ public class State {
         gameBoard = new GameBoard();
         numberOfVisits = 0;
         firstMove = true;
+        game = new Game();
+        currentStone = game.drawStone();
+        terminal = false;
     }
 
 
@@ -59,9 +65,11 @@ public class State {
         }
     }
 
+    // todo first move
     public List<State> nextState() {
+        currentStone = game.drawStone();
         List<State> nextStates = new ArrayList<>();
-        currentStone = Game.drawStone();
+        System.out.println(currentStone);
         if(currentStone != null) {
             for (int i = 0; i < gameBoard.representation.length; i++) {
                 int len = gameBoard.representation[i].length;
@@ -195,6 +203,11 @@ public class State {
                     }
                 }
             }
+        }
+        firstMove = false;
+        numberOfNext = nextStates.size();
+        if(nextStates.isEmpty()){
+            terminal = true;
         }
         return nextStates;
     }
@@ -350,6 +363,25 @@ public class State {
                 default:
                     break;
             }
+        }
+    }
+
+    public void playout() {
+        System.out.println("Start random playout for simulation!");
+
+        // copy instance of game for simulation from this state
+        Game game = new Game(this.game);
+        this.game = game;
+        Random random = new Random();
+        List<State> nextStates = this.nextState();
+        while(!nextStates.isEmpty()){
+            System.out.println(nextStates.size());
+            State next = nextStates.get(random.nextInt(nextStates.size()));
+//            next.printBoard();
+            this.colorScores = next.colorScores;
+            this.currentStone = next.currentStone;
+            this.gameBoard = next.gameBoard;
+            nextStates = next.nextState();
         }
     }
 }
