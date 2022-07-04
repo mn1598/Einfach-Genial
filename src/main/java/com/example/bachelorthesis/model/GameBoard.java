@@ -38,4 +38,8 @@ public class GameBoard {
         representation[10][0] = ColorEnum.YELLOW;
         representation[10][5] = ColorEnum.ORANGE;
     }
+    // todo
+    public boolean full(){
+        return false;
+    }
 }

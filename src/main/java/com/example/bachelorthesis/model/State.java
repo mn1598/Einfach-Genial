@@ -15,16 +15,18 @@ public class State {
 
     // "Kopierkonstruktor" fuer Folgezustaende
     public State(State state) {
-        game = state.game;
+        firstMove = false;
+        numberOfNext = state.numberOfNext;
+        game = new Game(state.game);
         gameBoard = new GameBoard();
-        for(int i = 0; i < state.gameBoard.representation.length; i++){
-            for(int j = 0; j < state.gameBoard.representation[i].length; j++){
+        for (int i = 0; i < state.gameBoard.representation.length; i++) {
+            for (int j = 0; j < state.gameBoard.representation[i].length; j++) {
                 gameBoard.representation[i][j] = state.gameBoard.representation[i][j];
             }
         }
 
         colorScores = new HashMap<>();
-        state.colorScores.forEach((x, y) ->{
+        state.colorScores.forEach((x, y) -> {
             this.colorScores.put(x, y);
         });
     }
@@ -43,7 +45,7 @@ public class State {
         numberOfVisits = 0;
         firstMove = true;
         game = new Game();
-        currentStone = game.drawStone();
+        //currentStone = game.drawStone();
         terminal = false;
     }
 
@@ -54,7 +56,7 @@ public class State {
                 System.out.print("  ");
             }
 
-            for (int k = 0; k < i - 5 && i > 5; k++){
+            for (int k = 0; k < i - 5 && i > 5; k++) {
                 System.out.print("  ");
             }
 
@@ -63,151 +65,237 @@ public class State {
             }
             System.out.println();
         }
+        System.out.println("----------------------------");
     }
 
-    // todo first move
     public List<State> nextState() {
         currentStone = game.drawStone();
         List<State> nextStates = new ArrayList<>();
-        System.out.println(currentStone);
-        if(currentStone != null) {
-            for (int i = 0; i < gameBoard.representation.length; i++) {
-                int len = gameBoard.representation[i].length;
-                for (int j = 0; j < len; j++) {
-                    if (gameBoard.representation[i][j] == ColorEnum.NONE) {
-                        /*
-                         * Rotation NONE
-                         */
-                        if (j < len - 1) {
-                            if (gameBoard.representation[i][j + 1] == ColorEnum.NONE) {
-                                // rota.NONE hinzufuegen
-                                State stateNew = new State(this);
-                                stateNew.putStoneOnField(currentStone, Rotation.NONE, i, j);
-                                stateNew.calculatePoints(currentStone, Rotation.NONE, i, j);
-                                nextStates.add(stateNew);
+        if (firstMove) {
+            nextStates = checkFirstMove(currentStone);
+            firstMove = false;
+        } else {
+            if (currentStone != null) {
+                for (int i = 0; i < gameBoard.representation.length; i++) {
+                    int len = gameBoard.representation[i].length;
+                    for (int j = 0; j < len; j++) {
+                        if (gameBoard.representation[i][j] == ColorEnum.NONE) {
+                            /*
+                             * Rotation NONE
+                             */
+                            if (j < len - 1) {
+                                if (gameBoard.representation[i][j + 1] == ColorEnum.NONE) {
+                                    // rota.NONE hinzufuegen
+                                    State stateNew = new State(this);
+                                    stateNew.putStoneOnField(currentStone, Rotation.NONE, i, j);
+                                    stateNew.calculatePoints(currentStone, Rotation.NONE, i, j);
+                                    nextStates.add(stateNew);
+                                }
                             }
-                        }
 
-                        /*
-                         * Roatation One
-                         */
-                        //Rotation.ONE upper half
-                        if (i < 5) {
-                            if (gameBoard.representation[i + 1][j + 1] == ColorEnum.NONE) {
-                                // rota.ONE hinzufuegen
-                                State stateNew = new State(this);
-                                stateNew.putStoneOnField(currentStone, Rotation.ONE_CLOCKWISE, i, j);
-                                stateNew.calculatePoints(currentStone, Rotation.ONE_CLOCKWISE, i, j);
-                                nextStates.add(stateNew);
+                            /*
+                             * Roatation One
+                             */
+                            //Rotation.ONE upper half
+                            if (i < 5) {
+                                if (gameBoard.representation[i + 1][j + 1] == ColorEnum.NONE) {
+                                    // rota.ONE hinzufuegen
+                                    State stateNew = new State(this);
+                                    stateNew.putStoneOnField(currentStone, Rotation.ONE_CLOCKWISE, i, j);
+                                    stateNew.calculatePoints(currentStone, Rotation.ONE_CLOCKWISE, i, j);
+                                    nextStates.add(stateNew);
+                                }
                             }
-                        }
 
-                        //Rotation.ONE lower half
-                        if (i >= 5 && i < 10 && j < len - 1) {
-                            if (gameBoard.representation[i + 1][j] == ColorEnum.NONE) {
-                                // rota.ONE hinzufuegen
-                                State stateNew = new State(this);
-                                stateNew.putStoneOnField(currentStone, Rotation.ONE_CLOCKWISE, i, j);
-                                stateNew.calculatePoints(currentStone, Rotation.ONE_CLOCKWISE, i, j);
-                                nextStates.add(stateNew);
+                            //Rotation.ONE lower half
+                            if (i >= 5 && i < 10 && j < len - 1) {
+                                if (gameBoard.representation[i + 1][j] == ColorEnum.NONE) {
+                                    // rota.ONE hinzufuegen
+                                    State stateNew = new State(this);
+                                    stateNew.putStoneOnField(currentStone, Rotation.ONE_CLOCKWISE, i, j);
+                                    stateNew.calculatePoints(currentStone, Rotation.ONE_CLOCKWISE, i, j);
+                                    nextStates.add(stateNew);
+                                }
                             }
-                        }
 
-                        /*
-                         * Rotation TWO
-                         */
-                        //Rotation.TWO upper half
-                        if (i < 5) {
-                            if (gameBoard.representation[i + 1][j] == ColorEnum.NONE) {
-                                // rota.TWO hinzufuegen
-                                State stateNew = new State(this);
-                                stateNew.putStoneOnField(currentStone, Rotation.TWO_CLOCKWISE, i, j);
-                                stateNew.calculatePoints(currentStone, Rotation.TWO_CLOCKWISE, i, j);
-                                nextStates.add(stateNew);
+                            /*
+                             * Rotation TWO
+                             */
+                            //Rotation.TWO upper half
+                            if (i < 5) {
+                                if (gameBoard.representation[i + 1][j] == ColorEnum.NONE) {
+                                    // rota.TWO hinzufuegen
+                                    State stateNew = new State(this);
+                                    stateNew.putStoneOnField(currentStone, Rotation.TWO_CLOCKWISE, i, j);
+                                    stateNew.calculatePoints(currentStone, Rotation.TWO_CLOCKWISE, i, j);
+                                    nextStates.add(stateNew);
+                                }
                             }
-                        }
 
-                        //Rotation.TWO lower half
-                        if (i >= 5 && i < 10 && j > 0) {
-                            if (gameBoard.representation[i + 1][j - 1] == ColorEnum.NONE) {
-                                // rota.TWO hinzufuegen
-                                State stateNew = new State(this);
-                                stateNew.putStoneOnField(currentStone, Rotation.TWO_CLOCKWISE, i, j);
-                                stateNew.calculatePoints(currentStone, Rotation.TWO_CLOCKWISE, i, j);
-                                nextStates.add(stateNew);
+                            //Rotation.TWO lower half
+                            if (i >= 5 && i < 10 && j > 0) {
+                                if (gameBoard.representation[i + 1][j - 1] == ColorEnum.NONE) {
+                                    // rota.TWO hinzufuegen
+                                    State stateNew = new State(this);
+                                    stateNew.putStoneOnField(currentStone, Rotation.TWO_CLOCKWISE, i, j);
+                                    stateNew.calculatePoints(currentStone, Rotation.TWO_CLOCKWISE, i, j);
+                                    nextStates.add(stateNew);
+                                }
                             }
-                        }
 
-                        /*
-                         * Rotation THREE
-                         */
-                        if (j > 0) {
-                            if (gameBoard.representation[i][j - 1] == ColorEnum.NONE) {
-                                // rota.THREE hinzufuegen
-                                State stateNew = new State(this);
-                                stateNew.putStoneOnField(currentStone, Rotation.THREE_CLOCKWISE, i, j);
-                                stateNew.calculatePoints(currentStone, Rotation.THREE_CLOCKWISE, i, j);
-                                nextStates.add(stateNew);
+                            /*
+                             * Rotation THREE
+                             */
+                            if (j > 0) {
+                                if (gameBoard.representation[i][j - 1] == ColorEnum.NONE) {
+                                    // rota.THREE hinzufuegen
+                                    State stateNew = new State(this);
+                                    stateNew.putStoneOnField(currentStone, Rotation.THREE_CLOCKWISE, i, j);
+                                    stateNew.calculatePoints(currentStone, Rotation.THREE_CLOCKWISE, i, j);
+                                    nextStates.add(stateNew);
+                                }
                             }
-                        }
 
-                        /*
-                         * Rotation FOUR
-                         */
-                        //Rotation.FOUR upper half
-                        if (i <= 5 && i > 0 && j > 0) {
-                            if (gameBoard.representation[i - 1][j - 1] == ColorEnum.NONE) {
-                                // rota.FOUR hinzufuegen
-                                State stateNew = new State(this);
-                                stateNew.putStoneOnField(currentStone, Rotation.FOUR_CLOCKWISE, i, j);
-                                stateNew.calculatePoints(currentStone, Rotation.FOUR_CLOCKWISE, i, j);
-                                nextStates.add(stateNew);
+                            /*
+                             * Rotation FOUR
+                             */
+                            //Rotation.FOUR upper half
+                            if (i <= 5 && i > 0 && j > 0) {
+                                if (gameBoard.representation[i - 1][j - 1] == ColorEnum.NONE) {
+                                    // rota.FOUR hinzufuegen
+                                    State stateNew = new State(this);
+                                    stateNew.putStoneOnField(currentStone, Rotation.FOUR_CLOCKWISE, i, j);
+                                    stateNew.calculatePoints(currentStone, Rotation.FOUR_CLOCKWISE, i, j);
+                                    nextStates.add(stateNew);
+                                }
                             }
-                        }
 
-                        //Rotation.FOUR lower half
-                        if (i > 5) {
-                            if (gameBoard.representation[i - 1][j] == ColorEnum.NONE) {
-                                // rota.FOUR hinzufuegen
-                                State stateNew = new State(this);
-                                stateNew.putStoneOnField(currentStone, Rotation.FOUR_CLOCKWISE, i, j);
-                                stateNew.calculatePoints(currentStone, Rotation.FOUR_CLOCKWISE, i, j);
-                                nextStates.add(stateNew);
+                            //Rotation.FOUR lower half
+                            if (i > 5) {
+                                if (gameBoard.representation[i - 1][j] == ColorEnum.NONE) {
+                                    // rota.FOUR hinzufuegen
+                                    State stateNew = new State(this);
+                                    stateNew.putStoneOnField(currentStone, Rotation.FOUR_CLOCKWISE, i, j);
+                                    stateNew.calculatePoints(currentStone, Rotation.FOUR_CLOCKWISE, i, j);
+                                    nextStates.add(stateNew);
+                                }
                             }
-                        }
 
-                        /*
-                         * Rotation FIVE
-                         */
-                        //Rotation.FIVE upper half
-                        if (i <= 5 && i > 0 && j < len - 1) {
-                            if (gameBoard.representation[i - 1][j] == ColorEnum.NONE) {
-                                // rota.FIVE hinzufuegen
-                                State stateNew = new State(this);
-                                stateNew.putStoneOnField(currentStone, Rotation.FIVE_CLOCKWISE, i, j);
-                                stateNew.calculatePoints(currentStone, Rotation.FIVE_CLOCKWISE, i, j);
-                                nextStates.add(stateNew);
+                            /*
+                             * Rotation FIVE
+                             */
+                            //Rotation.FIVE upper half
+                            if (i <= 5 && i > 0 && j < len - 1) {
+                                if (gameBoard.representation[i - 1][j] == ColorEnum.NONE) {
+                                    // rota.FIVE hinzufuegen
+                                    State stateNew = new State(this);
+                                    stateNew.putStoneOnField(currentStone, Rotation.FIVE_CLOCKWISE, i, j);
+                                    stateNew.calculatePoints(currentStone, Rotation.FIVE_CLOCKWISE, i, j);
+                                    nextStates.add(stateNew);
+                                }
                             }
-                        }
 
-                        //Rotation.FIVE lower half
-                        if (i > 5) {
-                            if (gameBoard.representation[i - 1][j + 1] == ColorEnum.NONE) {
-                                // rota.FIVE hinzufuegen
-                                State stateNew = new State(this);
-                                stateNew.putStoneOnField(currentStone, Rotation.FIVE_CLOCKWISE, i, j);
-                                stateNew.calculatePoints(currentStone, Rotation.FIVE_CLOCKWISE, i, j);
-                                nextStates.add(stateNew);
+                            //Rotation.FIVE lower half
+                            if (i > 5) {
+                                if (gameBoard.representation[i - 1][j + 1] == ColorEnum.NONE) {
+                                    // rota.FIVE hinzufuegen
+                                    State stateNew = new State(this);
+                                    stateNew.putStoneOnField(currentStone, Rotation.FIVE_CLOCKWISE, i, j);
+                                    stateNew.calculatePoints(currentStone, Rotation.FIVE_CLOCKWISE, i, j);
+                                    nextStates.add(stateNew);
+                                }
                             }
                         }
                     }
                 }
             }
         }
+
         firstMove = false;
         numberOfNext = nextStates.size();
-        if(nextStates.isEmpty()){
+        if (nextStates.isEmpty()) {
             terminal = true;
+        }
+        return nextStates;
+    }
+
+    private List<State> checkFirstMove(Stone currentStone) {
+        List<State> nextStates = new ArrayList<>();
+        // startpositionen überprüfen
+        for (int i = 0; i < gameBoard.representation.length; i++) {
+            int len = gameBoard.representation[i].length;
+            for (int j = 0; j < len; j++) {
+
+                // none
+                if (((i == 0 || i == 10) && (j == 1 || j == 3)) || ((i == 1 || i == 9) && (j != 2 && j != 3 && j != 6))
+                        || ((i == 4 || i == 6) && (j == 0 || j == 8)) || (i == 5 && (j == 1 || j == 8))) {
+
+                    // rota.NONE hinzufuegen
+                    State stateNew = new State(this);
+                    stateNew.putStoneOnField(currentStone, Rotation.NONE, i, j);
+                    stateNew.calculatePoints(currentStone, Rotation.NONE, i, j);
+                    nextStates.add(stateNew);
+                }
+
+                // one
+                if ((i == 0 && (j == 1 || j == 4)) || (i == 1 && (j != 2 && j != 3 && j != 4)) ||(i == 3 && j == 8)
+                || (i == 4 && (j == 0 || j == 8)) || (i == 5 && (j == 1 || j== 9)) || (i == 6 && j == 0) || (i == 8 && (j == 0 ||
+                        j == 1 || j == 5 || j == 6)) || (i == 9 && (j == 0 || j == 1 || j == 4))){
+
+                    // rota.ONE hinzufuegen
+                    State stateNew = new State(this);
+                    stateNew.putStoneOnField(currentStone, Rotation.ONE_CLOCKWISE, i, j);
+                    stateNew.calculatePoints(currentStone, Rotation.ONE_CLOCKWISE, i, j);
+                    nextStates.add(stateNew);
+                }
+
+                // two
+                if((i == 0 && (j == 1 || j == 4)) || (i == 1 && (j == 0 || j == 1 || j == 5 || j == 6)) || (i== 4 && (j == 0 || j == 1))
+                || (i == 5 && (j == 1 || j == 9)) || (i == 6 && j == 9) || (i == 8 && (j == 1 || j == 2 || j == 6 || j == 7))
+                || (i == 9 && (j == 2 || j == 5))){
+
+                    // rota.TWO hinzufuegen
+                    State stateNew = new State(this);
+                    stateNew.putStoneOnField(currentStone, Rotation.TWO_CLOCKWISE, i, j);
+                    stateNew.calculatePoints(currentStone, Rotation.TWO_CLOCKWISE, i, j);
+                    nextStates.add(stateNew);
+                }
+
+                // three
+                if(((i == 0 || i == 10) && (j == 2 || j == 4)) || ((i == 1 || i == 9) && (j == 1 || j == 2 || j == 5 || j == 6))
+                || ((i == 4 || i == 6) && (j == 1 || j == 9)) || (i == 5 && (j == 2 || j == 9))){
+
+                    // rota.THREE hinzufuegen
+                    State stateNew = new State(this);
+                    stateNew.putStoneOnField(currentStone, Rotation.THREE_CLOCKWISE, i, j);
+                    stateNew.calculatePoints(currentStone, Rotation.THREE_CLOCKWISE, i, j);
+                    nextStates.add(stateNew);
+                }
+
+                // four
+                if((i == 1 && (j == 2 || j == 5)) || (i == 2 && (j == 1 || j == 2 || j == 6 || j == 7)) || (i == 4 && j == 9)
+                    || (i == 5 && (j == 1 || j == 9)) || (i == 6 && (j == 1 || j == 9)) || (i == 7 && j == 0)
+                        || (i == 9 && (j == 0 || j == 1 || j == 5 || j == 6)) || (i == 10 && (j == 1 || j == 4))){
+
+                    // rota.FOUR hinzufuegen
+                    State stateNew = new State(this);
+                    stateNew.putStoneOnField(currentStone, Rotation.FOUR_CLOCKWISE, i, j);
+                    stateNew.calculatePoints(currentStone, Rotation.FOUR_CLOCKWISE, i, j);
+                    nextStates.add(stateNew);
+                }
+
+                // five
+                if((i == 1 && (j == 1 || j == 4)) || (i == 2 && (j == 0 || j == 1 || j == 5 || j == 6)) || (i == 4 && j == 0)
+                || (i == 5 && (j == 1 || j == 9)) || (i == 6 && (j == 0 || j == 8)) || (i == 7 && j == 8) || (i == 9 &&
+                        (j == 0 || j== 1 || j == 5 || j == 6)) || (i == 10 && (j == 1 || j == 4))){
+
+                    // rota.FIVE hinzufuegen
+                    State stateNew = new State(this);
+                    stateNew.putStoneOnField(currentStone, Rotation.FIVE_CLOCKWISE, i, j);
+                    stateNew.calculatePoints(currentStone, Rotation.FIVE_CLOCKWISE, i, j);
+                    nextStates.add(stateNew);
+                }
+            }
         }
         return nextStates;
     }
@@ -275,7 +363,7 @@ public class State {
                                 }
                             } else if (counter == 1 && ((colorCounter == 0 && rotation.ordinal() != counter) || (colorCounter == 1 && rotation.ordinal() != 4))) {
                                 if (gameBoard.representation[i + offset][j + offset] == stone.stoneColor[colorCounter] && i < 5 ||
-                                                (gameBoard.representation[i + offset][j] == stone.stoneColor[colorCounter] && i >= 5)) {
+                                        (gameBoard.representation[i + offset][j] == stone.stoneColor[colorCounter] && i >= 5)) {
                                     colorScores.put(stone.stoneColor[colorCounter], colorScores.get(stone.stoneColor[colorCounter]) + 1);
                                     offset++;
                                 } else {
@@ -374,14 +462,20 @@ public class State {
         this.game = game;
         Random random = new Random();
         List<State> nextStates = this.nextState();
-        while(!nextStates.isEmpty()){
-            System.out.println(nextStates.size());
+        this.printBoard();
+        while (!nextStates.isEmpty()) {
+           //System.out.println(nextStates.size());
             State next = nextStates.get(random.nextInt(nextStates.size()));
-//            next.printBoard();
+            next.printBoard();
             this.colorScores = next.colorScores;
             this.currentStone = next.currentStone;
             this.gameBoard = next.gameBoard;
             nextStates = next.nextState();
         }
+//        State next = nextStates.get(random.nextInt(nextStates.size()));
+//        next.printBoard();
+//        this.colorScores = next.colorScores;
+//        this.currentStone = next.currentStone;
+//        this.gameBoard = next.gameBoard;
     }
 }

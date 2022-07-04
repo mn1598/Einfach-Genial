@@ -5,10 +5,9 @@ import com.example.bachelorthesis.model.Game;
 import com.example.bachelorthesis.model.GameBoard;
 import com.example.bachelorthesis.model.State;
 import com.example.bachelorthesis.view.Gui;
+import javafx.application.Platform;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class MCTS {
 
@@ -17,6 +16,7 @@ public class MCTS {
     Random random = new Random();
     Game game;
     State initial;
+    State state;
 
     /*
      * create a new MCTS Object linked to gui for displaying information
@@ -26,7 +26,7 @@ public class MCTS {
         initial = new State();
         game = initial.game;
         root = new Node(initial);
-        //randomGame(); // starts a game with random moves
+        // randomGame(); // starts a game with random moves
         // initial.playout();
     }
 
@@ -49,17 +49,27 @@ public class MCTS {
     public void start() {
 
         // todo Schleife bis board voll ist
-        GameBoard winnerBoard = nextMove(initial.gameBoard);
-        gui.getPane().updateBoard(winnerBoard);
-        System.out.println(root.children.size());
+        state = nextMove(initial);
+        gui.getPane().updateBoard(state.gameBoard);
 
+        while(state.numberOfNext > 0){
+            state = nextMove(state);
+
+            Platform.runLater(new Runnable() {
+                @Override
+                    public void run() {
+                    gui.getPane().updateBoard(state.gameBoard);
+                }
+            });
+        }
     }
 
-    public GameBoard nextMove(GameBoard gameBoard){
+    public State nextMove(State state){
         long endTime = 1000;
         long startTime = System.currentTimeMillis();
         Node node = root;
 
+        GameBoard gameBoard = state.gameBoard;
         Node winner = root;
         int run = 1;
         while (System.currentTimeMillis() - startTime < endTime) {
@@ -78,9 +88,7 @@ public class MCTS {
             // Simulation
             Node simulatedNode = best;
             int size = best.children.size();
-            if(size > 0){
-                simulatedNode = best.children.get(random.nextInt(size));
-            }
+
             int result = simulate(simulatedNode);
             //nextMove.printBoard();
             System.out.println("Simulation done!");
@@ -108,10 +116,10 @@ public class MCTS {
                 }
             }
         }
-        root = winner;
+//        root = winner;
         winner.state.printBoard();
         winner.state.colorScores.forEach((x, a)-> System.out.println(x + " " + a));
-        return winner.state.gameBoard;
+        return winner.state;
     }
 
     public Node selection(Node root) {
@@ -142,7 +150,7 @@ public class MCTS {
         // todo int boardStatus?
 
         // random playout (light playout)
-        while(!copyState.terminal){
+        while(copyState.numberOfNext > 0){
 //            List<State> nextStates = new ArrayList<>();
 //            for (Node child: copyNode.children){
 //                nextStates.add(child.state);

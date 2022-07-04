@@ -1,5 +1,6 @@
 package com.example.bachelorthesis.Test;
 
+import com.example.bachelorthesis.ai.Node;
 import com.example.bachelorthesis.model.*;
 import javafx.scene.paint.Color;
 
@@ -15,8 +16,8 @@ public class Test {
 
     public static void main(String[] args) {
         Game game = new Game();
-        testNextStates();
-        testPointCalculation();
+//        testNextStates();
+//        testPointCalculation();
     }
 
     public static void testPointCalculation() {

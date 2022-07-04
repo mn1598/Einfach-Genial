@@ -8,9 +8,11 @@ import java.util.List;
 
 public class Node {
 
-    State state;
-    Node parent;
-    ArrayList<Node> children;
+    public State state;
+    public Node parent;
+    public ArrayList<Node> children;
+
+    public double avgScore;
 
     public Node(Node parent) {
         this.parent = parent;
@@ -26,18 +28,13 @@ public class Node {
 
     public void expand(){
         List<State> nextStates = state.nextState();
-        System.out.println(nextStates.size());
+        //System.out.println(nextStates.size());
         for(State state: nextStates){
             Node child = new Node(this);
             child.state = state;
             this.children.add(child);
         }
-//        if(state.terminal){
-//            return;
-//        }
-//        if(children.size() < state.numberOfNext){
-//            children.add(new Node(this));
-//        }
+        //this.children.get(children.size() - 1).expand();
     }
 
     public double calculateUCT(){
