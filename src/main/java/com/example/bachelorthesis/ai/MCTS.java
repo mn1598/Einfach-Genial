@@ -4,6 +4,8 @@ import com.example.bachelorthesis.model.GameBoard;
 import com.example.bachelorthesis.model.State;
 import com.example.bachelorthesis.view.Gui;
 
+import java.util.List;
+
 public class MCTS {
 
     private Gui gui;
@@ -34,31 +36,38 @@ public class MCTS {
             if(selected.getState().getNumberOfNext() != 0){
                 expand(selected);
             }
-
-            // Simulation
             Node todo = selected;
             if(todo.getChildren().size() > 0){
-                // todo get random child node of todo
+                todo = selected.randomChild();
             }
+
+            // Simulation
             int result = simulate(todo);
 
             // Backpropagation
             backpropagate(todo, result);
         }
 
-        Node best = null; // todo search tree from rootNode for Node with best score, this node is winner
+        Node best = root.bestChild();
         tree.root = best;
         return best.getState();
     }
 
     public Node selection(Node root){
         Node node = root;
-        // todo select node with uct
+        while(!node.getChildren().isEmpty()){
+            node = node.bestUCTChild();
+        }
         return node;
     }
 
     public void expand(Node node){
-        // todo expand node and let nextStates generate
+        List<State> nextStates = node.getState().nextState();
+        for(State state: nextStates){
+            Node n1 = new Node(state);
+            n1.setParent(node);
+            node.getChildren().add(n1);
+        }
     }
 
     public int simulate(Node node){

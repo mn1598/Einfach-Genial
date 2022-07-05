@@ -514,4 +514,14 @@ public class State {
     public int getNumberOfNext() {
         return numberOfNext;
     }
+
+    public int getLowestScore(){
+        int result = Integer.MAX_VALUE;
+        for(ColorEnum color: colorScores.keySet()){
+            if(colorScores.get(color) < result){
+                result = colorScores.get(color);
+            }
+        }
+        return result;
+    }
 }
