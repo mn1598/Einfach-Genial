@@ -19,7 +19,7 @@ public class Node {
     }
 
     public Node(Node node){
-        this.state = new State(state);
+        this.state = new State(node.state);
         this.parent = node.parent;
         this.children = new ArrayList<>();
         node.children.forEach(x -> this.children.add(x));
@@ -52,7 +52,7 @@ public class Node {
         if(children.size() > 0){
             best = children.get(0);
             for(Node child: children){
-                if(best.state.getLowestScore() < child.state.getLowestScore()){
+                if(best.state.getAvgScore() < child.state.getAvgScore()){
                     best = child;
                 }
             }

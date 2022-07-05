@@ -2,6 +2,7 @@ package com.example.bachelorthesis.view;
 
 import com.example.bachelorthesis.controller.Controller;
 import com.example.bachelorthesis.model.ColorEnum;
+import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -95,14 +96,21 @@ public class SidePane extends AnchorPane {
 
     }
 
+    // todo delete avg time und max time, total time kann bleiben!
     public void setLabelText(int avg, int max, int total, HashMap<ColorEnum, Integer> scores) {
-        avgTimeLabel.setText("Average Time: " +  avg + "s");
-        maxTimeLabel.setText("Max Time: " + max + "s");
-        totalTimeLabel.setText("Total Time: " + total + "s");
-        String scoreText = "";
-        for(ColorEnum color: scores.keySet()){
-            scoreText += color + " :" + scores.get(color) + " Points\n";
-        }
-        scoreLabel.setText(scoreText);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                avgTimeLabel.setText("Average Time: " +  avg + "s");
+                maxTimeLabel.setText("Max Time: " + max + "s");
+                totalTimeLabel.setText("Total Time: " + total + "s");
+                String scoreText = "";
+                for(ColorEnum color: scores.keySet()){
+                    scoreText += color + " :" + scores.get(color) + " Points\n";
+                }
+                scoreLabel.setText(scoreText);
+            }
+        });
+
     }
 }

@@ -1,13 +1,10 @@
 package com.example.bachelorthesis.model;
 
-import java.net.Inet4Address;
-import java.util.HashMap;
-
 public class GameBoard {
 
     public ColorEnum[][] representation;
 
-    public GameBoard(){
+    public GameBoard() {
         initGameBoard();
     }
 
@@ -38,8 +35,125 @@ public class GameBoard {
         representation[10][0] = ColorEnum.YELLOW;
         representation[10][5] = ColorEnum.ORANGE;
     }
-    // todo check if board is full
-    public boolean isFull(){
-        return false;
+
+    // todo outofbounds exception fixen
+    public boolean isFull() {
+        ColorEnum none = ColorEnum.NONE;
+        for (int i = 0; i < representation.length; i++) {
+            for (int j = 0; j < representation[i].length; j++) {
+                if (representation[i][j] == ColorEnum.NONE) {
+                    // test this method
+                    // first row
+                    if (i == 0) {
+                        if (j == 1) {
+                            if (representation[i][j + 1] == none || representation[i + 1][j + 1] == none || representation[i + 1][j] == none) {
+                                return false;
+                            } else {
+                                continue;
+                            }
+                        } else if (j == 4) {
+                            if (representation[i + 1][j + 1] == none || representation[i + 1][j] == none || representation[i][j - 1] == none) {
+                                return false;
+                            } else {
+                                continue;
+                            }
+                        } else {
+                            if (representation[i][j + 1] == none || representation[i + 1][j + 1] == none || representation[i + 1][j] == none
+                                    || representation[i][j - 1] == none) {
+                                return false;
+                            } else {
+                                continue;
+                            }
+                        }
+                    }
+                    // second to fifth row
+                    if (i > 0 && i < 5) {
+                        if (j == 0) {
+                            if (representation[i][j + 1] == none || representation[i + 1][j + 1] == none || representation[i + 1][j] == none
+                                    || representation[i - 1][j] == none) {
+                                return false;
+                            } else {
+                                continue;
+                            }
+                        }
+                        if (j == representation[i].length - 1) {
+                            if (representation[i + 1][j + 1] == none || representation[i + 1][j] == none || representation[i][j - 1] == none
+                                    || representation[i - 1][j - 1] == none) {
+                                return false;
+                            } else {
+                                continue;
+                            }
+                        }
+                    }
+
+                    // sixth row
+                    // not necessary because only fields 'on edge' are precolored fields blue & purple!
+
+                    // seventh to tenth row
+                    if (i > 5 && i < 10) {
+                        if (j == 0) {
+                            if (representation[i][j + 1] == none || representation[i + 1][j] == none || representation[i - 1][j] == none
+                                    || representation[i - 1][j + 1] == none) {
+                                return false;
+                            } else {
+                                continue;
+                            }
+                        }
+                        if (j == representation[i].length - 1) {
+                            if (representation[i + 1][j - 1] == none || representation[i][j - 1] == none || representation[i - 1][j] == none
+                                    || representation[i - 1][j + 1] == none) {
+                                return false;
+                            } else {
+                                continue;
+                            }
+                        }
+                    }
+
+                    // eleventh row
+                    if (i == 10) {
+                        if (j == 1) {
+                            if (representation[i][j + 1] == none || representation[i - 1][j] == none || representation[i - 1][j + 1] == none) {
+                                return false;
+                            } else {
+                                continue;
+                            }
+                        } else if (j == 4) {
+                            if (representation[i][j - 1] == none || representation[i - 1][j] == none || representation[i - 1][j + 1] == none) {
+                                return false;
+                            } else {
+                                continue;
+                            }
+                        } else {
+                            if (representation[i][j + 1] == none || representation[i][j - 1] == none || representation[i - 1][j] == none
+                                    || representation[i - 1][j + 1] == none) {
+                                return false;
+                            } else {
+                                continue;
+                            }
+                        }
+                    }
+                    // now check all field with six neighbouors at once!!!
+                    if (i < 5) {
+                        if (representation[i][j + 1] == none || representation[i + 1][j] == none || representation[i + 1][j + 1] == none
+                                || representation[i][j - 1] == none || representation[i - 1][j] == none || representation[i - 1][j - 1] == none) {
+                            return false;
+                        }
+                    }
+                    if (i == 5) {
+                        if (representation[i][j + 1] == none || representation[i + 1][j] == none || representation[i + 1][j - 1] == none
+                                || representation[i][j - 1] == none || representation[i - 1][j - 1] == none || representation[i - 1][j] == none) {
+                            return false;
+                        }
+                    }
+                    if (i > 5) {
+                        if (representation[i][j + 1] == none || representation[i + 1][j] == none || representation[i + 1][j - 1] == none
+                                || representation[i][j - 1] == none || representation[i - 1][j] == none || representation[i - 1][j + 1] == none) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
     }
 }

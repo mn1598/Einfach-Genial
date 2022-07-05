@@ -3,6 +3,7 @@ package com.example.bachelorthesis.view;
 import com.example.bachelorthesis.model.GameBoard;
 import com.example.bachelorthesis.model.Rotation;
 import com.example.bachelorthesis.model.Stone;
+import javafx.application.Platform;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
@@ -74,17 +75,22 @@ public class CentrePane extends GridPane {
     }
 
     public void updateBoard(GameBoard board) {
-        for (int i = 0; i < 11; i++) {
-            for (int j = 0; j < this.rows[i].length; j++) {
-                switch (board.representation[i][j]) {
-                    case RED -> rows[i][j].setFill(Color.RED);
-                    case GREEN -> rows[i][j].setFill(Color.GREEN);
-                    case BLUE -> rows[i][j].setFill(Color.BLUE);
-                    case ORANGE -> rows[i][j].setFill(Color.ORANGE);
-                    case YELLOW -> rows[i][j].setFill(Color.YELLOW);
-                    case PURPLE -> rows[i][j].setFill(Color.PURPLE);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < 11; i++) {
+                    for (int j = 0; j < rows[i].length; j++) {
+                        switch (board.representation[i][j]) {
+                            case RED -> rows[i][j].setFill(Color.RED);
+                            case GREEN -> rows[i][j].setFill(Color.GREEN);
+                            case BLUE -> rows[i][j].setFill(Color.BLUE);
+                            case ORANGE -> rows[i][j].setFill(Color.ORANGE);
+                            case YELLOW -> rows[i][j].setFill(Color.YELLOW);
+                            case PURPLE -> rows[i][j].setFill(Color.PURPLE);
+                        }
+                    }
                 }
             }
-        }
+        });
     }
 }
