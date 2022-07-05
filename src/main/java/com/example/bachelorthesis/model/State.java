@@ -27,15 +27,13 @@ public class State {
         }
 
         colorScores = new HashMap<>();
-        state.colorScores.forEach((x, y) -> {
-            this.colorScores.put(x, y);
-        });
+        this.colorScores.putAll(state.colorScores);
     }
 
     // Konstruktor zur erstmaligen initialisierung
     public State() {
         // initial state
-        colorScores = new HashMap<ColorEnum, Integer>();
+        colorScores = new HashMap<>();
         colorScores.put(ColorEnum.RED, 0);
         colorScores.put(ColorEnum.BLUE, 0);
         colorScores.put(ColorEnum.GREEN, 0);
@@ -342,7 +340,7 @@ public class State {
 
     public void calculatePoints(Stone stone, Rotation rotation, int i, int j) {
         //System.out.println("start calculating points");
-        int counter = 0;
+        int counter;
         for (int colorCounter = 0; colorCounter < 2; colorCounter++) { // sorgt dafuer, dass beide farben vom gelegten Stein geprüft werden
             A:
             for (counter = 0; counter < 6; counter++) { // sorgt dafuer, dass jede richtung gecheckt wird
