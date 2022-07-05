@@ -17,13 +17,21 @@ public class MCTS {
     // todo play whole game until board is full
     //  update gui: gameboard and statistics
     public void start() {
+
+        State initial = new State();
+
+        do{
+            initial.printBoard();
+            initial = nextMove(initial);
+        } while(initial.getNumberOfNext() > 0);
+
     }
 
     public State nextMove(State state) {
         long startTime = System.currentTimeMillis();
         long endTime = 2500;
 
-        Tree tree = new Tree();
+        Tree tree = new Tree(state);
         Node root = tree.root;
         root.getState().setGameBoard(state.getGameBoard());
 
@@ -33,7 +41,7 @@ public class MCTS {
             Node selected = selection(root);
 
             // Expansion
-            if(selected.getState().getNumberOfNext() != 0){
+            if(!selected.getState().getGameBoard().isFull()){
                 expand(selected);
             }
             Node todo = selected;
@@ -71,16 +79,31 @@ public class MCTS {
     }
 
     public int simulate(Node node){
-        // todo simulated light playout
-        return 0;
+        Node nodeCopy = new Node(node);
+        State stateCopy = new State(node.getState());
+        // todo boardStatus?
+
+        while(stateCopy.getNumberOfNext() > 0){
+            stateCopy.randomMove(); // light playout
+        }
+        return stateCopy.getLowestScore();
     }
 
     public void backpropagate(Node node, int result){
-        // todo backpropagate
+        Node nodeCopy = node;
+        while(nodeCopy != null){
+            nodeCopy.getState().addVisit();
+            nodeCopy.getState().setAvgScore((double) result / (double) nodeCopy.getState().getNumberOfVisits());
+            nodeCopy = nodeCopy.getParent();
+        }
     }
 
     class Tree {
         Node root;
+
+        Tree(State state){
+            root = new Node(state);
+        }
     }
 
 }

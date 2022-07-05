@@ -17,7 +17,6 @@ public class State {
     // "Kopierkonstruktor" fuer Folgezustaende
     public State(State state) {
         firstMove = false;
-        numberOfNext = state.numberOfNext;
         game = new Game(state.game);
         gameBoard = new GameBoard();
         for (int i = 0; i < state.gameBoard.representation.length; i++) {
@@ -454,7 +453,6 @@ public class State {
     public void randomMove() {
         System.out.println("Choose random move for simulation!");
         Random random = new Random();
-        this.printBoard();
         State next = null;
         if(firstMove){
             int pointsGained = 0;
@@ -467,12 +465,19 @@ public class State {
         } else {
             next = this.nextStates.get(random.nextInt(this.nextStates.size()));
         }
-        next.printBoard();
         next.colorScores.forEach((x, y) -> this.colorScores.put(x, y));
         this.firstMove = false;
         this.gameBoard = next.gameBoard;
         this.nextStates = next.nextStates;
         this.currentStone = next.currentStone;
+    }
+
+    public void addVisit(){
+        this.numberOfVisits++;
+    }
+
+    public void setAvgScore(double avgScore) {
+        this.avgScore = avgScore;
     }
 
     public Stone getCurrentStone() {
