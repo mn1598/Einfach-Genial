@@ -26,8 +26,33 @@ public class MCTS {
 
         while (System.currentTimeMillis() - startTime < endTime) {
 
+            // Selection
+            Node selected = selection(root);
+
+            // Expansion
+            if(selected.getState().getNumberOfNext() != 0){
+                expand(selected);
+            }
+
+            // Simulation
+            ;
+
+            // Backpropagation
+            ;
         }
-        return null;
+
+        Node best = null; // todo search child array for best score
+        return best.getState();
+    }
+
+    public Node selection(Node root){
+        Node node = root;
+        // todo select node with uct
+        return node;
+    }
+
+    public void expand(Node node){
+        // todo expand node and let nextStates generate
     }
 
     class Tree {
