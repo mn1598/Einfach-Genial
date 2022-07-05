@@ -4,7 +4,6 @@ import com.example.bachelorthesis.model.GameBoard;
 import com.example.bachelorthesis.model.State;
 import com.example.bachelorthesis.view.Gui;
 
-// todo mcts implementieren
 public class MCTS {
 
     private Gui gui;
@@ -37,13 +36,18 @@ public class MCTS {
             }
 
             // Simulation
-            ;
+            Node todo = selected;
+            if(todo.getChildren().size() > 0){
+                // todo get random child node of todo
+            }
+            int result = simulate(todo);
 
             // Backpropagation
-            ;
+            backpropagate(todo, result);
         }
 
         Node best = null; // todo search tree from rootNode for Node with best score, this node is winner
+        tree.root = best;
         return best.getState();
     }
 
@@ -55,6 +59,15 @@ public class MCTS {
 
     public void expand(Node node){
         // todo expand node and let nextStates generate
+    }
+
+    public int simulate(Node node){
+        // todo simulated light playout
+        return 0;
+    }
+
+    public void backpropagate(Node node, int result){
+        // todo backpropagate
     }
 
     class Tree {

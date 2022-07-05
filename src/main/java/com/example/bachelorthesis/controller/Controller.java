@@ -18,6 +18,10 @@ public class Controller {
         ai.start();
     }
 
+    public void clickOnExperiment(){
+        // todo hier wird das experiment mit 1000 spielen durchgeführt
+    }
+
 
 
 
