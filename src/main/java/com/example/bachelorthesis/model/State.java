@@ -3,15 +3,16 @@ package com.example.bachelorthesis.model;
 import java.util.*;
 
 public class State {
-    public GameBoard gameBoard;
-    public HashMap<ColorEnum, Integer> colorScores;
-    public Stone currentStone; // stone has been drawed
-    public boolean firstMove;
-    public int numberOfVisits;
-    public double avgScore; // avg Points per round (for the lowest color)
-    public boolean terminal;
-    public Game game;
-    public int numberOfNext;
+    private GameBoard gameBoard;
+    private HashMap<ColorEnum, Integer> colorScores;
+    private Stone currentStone; // stone has been drawed
+    private boolean firstMove;
+    private int numberOfVisits;
+    private double avgScore; // avg Points per round (for the lowest color)
+    private boolean terminal;
+    private Game game;
+    private int numberOfNext;
+    private List<State> nextStates;
 
     // "Kopierkonstruktor" fuer Folgezustaende
     public State(State state) {
@@ -49,7 +50,6 @@ public class State {
         terminal = false;
     }
 
-
     public void printBoard() {
         for (int i = 0; i < gameBoard.representation.length; i++) {
             for (int k = 5; k > i; k--) {
@@ -70,10 +70,9 @@ public class State {
 
     public List<State> nextState() {
         currentStone = game.drawStone();
-        List<State> nextStates = new ArrayList<>();
+        nextStates = new ArrayList<>();
         if (firstMove) {
             nextStates = checkFirstMove(currentStone);
-            firstMove = false;
         } else {
             if (currentStone != null) {
                 for (int i = 0; i < gameBoard.representation.length; i++) {
@@ -211,7 +210,6 @@ public class State {
             }
         }
 
-        firstMove = false;
         numberOfNext = nextStates.size();
         if (nextStates.isEmpty()) {
             terminal = true;
@@ -300,6 +298,7 @@ public class State {
         return nextStates;
     }
 
+    // todo evtl in Klasse GameBoard damit (macht mehr sinn oder?)
     public void putStoneOnField(Stone stone, Rotation rotation, int i, int j) {
         gameBoard.representation[i][j] = stone.stoneColor[0];
         switch (rotation) {
@@ -454,28 +453,67 @@ public class State {
         }
     }
 
-    public void playout() {
-        System.out.println("Start random playout for simulation!");
-
-        // copy instance of game for simulation from this state
-        Game game = new Game(this.game);
-        this.game = game;
+    public void randomMove() {
+        System.out.println("Choose random move for simulation!");
         Random random = new Random();
-        List<State> nextStates = this.nextState();
         this.printBoard();
-        while (!nextStates.isEmpty()) {
-           //System.out.println(nextStates.size());
-            State next = nextStates.get(random.nextInt(nextStates.size()));
-            next.printBoard();
-            this.colorScores = next.colorScores;
-            this.currentStone = next.currentStone;
-            this.gameBoard = next.gameBoard;
-            nextStates = next.nextState();
+        State next = null;
+        if(firstMove){
+            int pointsGained = 0;
+            while(pointsGained == 0){
+                next = this.nextStates.get(random.nextInt(this.nextStates.size()));
+                for(ColorEnum color: next.colorScores.keySet()){
+                    pointsGained += next.colorScores.get(color);
+                }
+            }
+        } else {
+            next = this.nextStates.get(random.nextInt(this.nextStates.size()));
         }
-//        State next = nextStates.get(random.nextInt(nextStates.size()));
-//        next.printBoard();
-//        this.colorScores = next.colorScores;
-//        this.currentStone = next.currentStone;
-//        this.gameBoard = next.gameBoard;
+        next.printBoard();
+        next.colorScores.forEach((x, y) -> this.colorScores.put(x, y));
+        this.firstMove = false;
+        this.gameBoard = next.gameBoard;
+        this.nextStates = next.nextStates;
+        this.currentStone = next.currentStone;
+    }
+
+    public Stone getCurrentStone() {
+        return currentStone;
+    }
+
+    public void setGameBoard(GameBoard gameBoard) {
+        this.gameBoard = gameBoard;
+    }
+
+    public boolean isTerminal() {
+        return terminal;
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public GameBoard getGameBoard() {
+        return gameBoard;
+    }
+
+    public HashMap<ColorEnum, Integer> getColorScores() {
+        return colorScores;
+    }
+
+    public boolean isFirstMove() {
+        return firstMove;
+    }
+
+    public int getNumberOfVisits() {
+        return numberOfVisits;
+    }
+
+    public double getAvgScore() {
+        return avgScore;
+    }
+
+    public int getNumberOfNext() {
+        return numberOfNext;
     }
 }

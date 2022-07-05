@@ -18,6 +18,7 @@ public class Test {
         Game game = new Game();
 //        testNextStates();
 //        testPointCalculation();
+        testRandomMove();
     }
 
     public static void testPointCalculation() {
@@ -37,30 +38,30 @@ public class Test {
         state.printBoard();
         state.putStoneOnField(new Stone(Color.PURPLE, Color.YELLOW), Rotation.ONE_CLOCKWISE, 6, 3);
         state.calculatePoints(new Stone(Color.PURPLE, Color.YELLOW), Rotation.ONE_CLOCKWISE, 6, 3);
-        System.out.println("Test mit Stein P,Y,rota1: " + (state.colorScores.get(ColorEnum.YELLOW)) + "\n");
+        System.out.println("Test mit Stein P,Y,rota1: " + (state.getColorScores().get(ColorEnum.YELLOW)) + "\n");
 
         state.calculatePoints(new Stone(Color.RED, Color.GREEN), Rotation.ONE_CLOCKWISE, 2, 0);
-        System.out.println("Test mit Stein R,G, rota1:" + (state.colorScores.get(ColorEnum.RED)) + ", " + (state.colorScores.get(ColorEnum.GREEN)));
+        System.out.println("Test mit Stein R,G, rota1:" + (state.getColorScores().get(ColorEnum.RED)) + ", " + (state.getColorScores().get(ColorEnum.GREEN)));
         state.putStoneOnField(new Stone(Color.RED, Color.GREEN), Rotation.ONE_CLOCKWISE, 2, 0);
 
         state.calculatePoints(new Stone(Color.GREEN, Color.GREEN), Rotation.NONE, 0, 3);
-        System.out.println("\nTest mit Stein G,G, rota0:" + (state.colorScores.get(ColorEnum.GREEN)));
+        System.out.println("\nTest mit Stein G,G, rota0:" + (state.getColorScores().get(ColorEnum.GREEN)));
         state.putStoneOnField(new Stone(Color.GREEN, Color.GREEN), Rotation.NONE, 0, 3);
 
         state.putStoneOnField(new Stone(Color.BLUE, Color.BLUE), Rotation.ONE_CLOCKWISE, 5, 9);
         state.calculatePoints(new Stone(Color.BLUE, Color.BLUE), Rotation.ONE_CLOCKWISE, 5, 9);
-        System.out.println("\nTest mit Stein B,B, rota1:" + (state.colorScores.get(ColorEnum.BLUE)));
+        System.out.println("\nTest mit Stein B,B, rota1:" + (state.getColorScores().get(ColorEnum.BLUE)));
 
         state.putStoneOnField(new Stone(Color.RED, Color.RED), Rotation.THREE_CLOCKWISE, 0, 2);
         state.calculatePoints(new Stone(Color.RED, Color.RED), Rotation.THREE_CLOCKWISE, 0, 2);
-        System.out.println("\nTest mit Stein R,R, rota3: " + (state.colorScores.get(ColorEnum.RED)));
+        System.out.println("\nTest mit Stein R,R, rota3: " + (state.getColorScores().get(ColorEnum.RED)));
 
         state.putStoneOnField(new Stone(Color.PURPLE, Color.RED), Rotation.FIVE_CLOCKWISE, 6, 0);
         state.calculatePoints(new Stone(Color.PURPLE, Color.RED), Rotation.FIVE_CLOCKWISE, 6, 0);
-        System.out.println("\nTest mit Stein P,R, rota5: " + (state.colorScores.get(ColorEnum.PURPLE)));
+        System.out.println("\nTest mit Stein P,R, rota5: " + (state.getColorScores().get(ColorEnum.PURPLE)));
 
-        for (ColorEnum col : state.colorScores.keySet()) {
-            totalPoints.put(col, state.colorScores.get(col) + totalPoints.get(col));
+        for (ColorEnum col : state.getColorScores().keySet()) {
+            totalPoints.put(col, state.getColorScores().get(col) + totalPoints.get(col));
         }
 
         totalPoints.forEach((x, y) -> System.out.println(x + ": " + y));
@@ -80,9 +81,17 @@ public class Test {
         System.out.println(states.size());
         states.forEach(x -> {
             x.printBoard();
-            x.colorScores.forEach((k, v) -> System.out.println(k + ": " + v));
+            x.getColorScores().forEach((k, v) -> System.out.println(k + ": " + v));
             System.out.println("----------------------");
         });
+    }
+
+    public static void testRandomMove(){
+        State initial = new State();
+        initial.nextState();
+        initial.randomMove();
+        initial.nextState();
+        initial.randomMove();
     }
 
 }

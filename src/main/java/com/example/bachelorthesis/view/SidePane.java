@@ -11,7 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 import java.util.HashMap;
-
+// todo anzeige für experiment mit 1000 spielen!!!!
 public class SidePane extends AnchorPane {
 
     private int avgTime;
