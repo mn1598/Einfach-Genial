@@ -13,6 +13,8 @@ public class MCTS {
         this.gui = gui;
     }
 
+    // todo play whole game until board is full
+    //  update gui: gameboard and statistics
     public void start() {
     }
 
@@ -41,7 +43,7 @@ public class MCTS {
             ;
         }
 
-        Node best = null; // todo search child array for best score
+        Node best = null; // todo search tree from rootNode for Node with best score, this node is winner
         return best.getState();
     }
 
