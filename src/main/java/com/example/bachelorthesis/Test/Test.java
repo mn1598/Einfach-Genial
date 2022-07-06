@@ -38,26 +38,32 @@ public class Test {
         state.printBoard();
         state.putStoneOnField(new Stone(Color.PURPLE, Color.YELLOW), Rotation.ONE_CLOCKWISE, 6, 3);
         state.calculatePoints(new Stone(Color.PURPLE, Color.YELLOW), Rotation.ONE_CLOCKWISE, 6, 3);
+        state.printBoard();
         System.out.println("Test mit Stein P,Y,rota1: " + (state.getColorScores().get(ColorEnum.YELLOW)) + "\n");
 
         state.calculatePoints(new Stone(Color.RED, Color.GREEN), Rotation.ONE_CLOCKWISE, 2, 0);
         System.out.println("Test mit Stein R,G, rota1:" + (state.getColorScores().get(ColorEnum.RED)) + ", " + (state.getColorScores().get(ColorEnum.GREEN)));
         state.putStoneOnField(new Stone(Color.RED, Color.GREEN), Rotation.ONE_CLOCKWISE, 2, 0);
+        state.printBoard();
 
         state.calculatePoints(new Stone(Color.GREEN, Color.GREEN), Rotation.NONE, 0, 3);
         System.out.println("\nTest mit Stein G,G, rota0:" + (state.getColorScores().get(ColorEnum.GREEN)));
         state.putStoneOnField(new Stone(Color.GREEN, Color.GREEN), Rotation.NONE, 0, 3);
+        state.printBoard();
 
         state.putStoneOnField(new Stone(Color.BLUE, Color.BLUE), Rotation.ONE_CLOCKWISE, 5, 9);
         state.calculatePoints(new Stone(Color.BLUE, Color.BLUE), Rotation.ONE_CLOCKWISE, 5, 9);
+        state.printBoard();
         System.out.println("\nTest mit Stein B,B, rota1:" + (state.getColorScores().get(ColorEnum.BLUE)));
 
         state.putStoneOnField(new Stone(Color.RED, Color.RED), Rotation.THREE_CLOCKWISE, 0, 2);
         state.calculatePoints(new Stone(Color.RED, Color.RED), Rotation.THREE_CLOCKWISE, 0, 2);
+        state.printBoard();
         System.out.println("\nTest mit Stein R,R, rota3: " + (state.getColorScores().get(ColorEnum.RED)));
 
         state.putStoneOnField(new Stone(Color.PURPLE, Color.RED), Rotation.FIVE_CLOCKWISE, 6, 0);
         state.calculatePoints(new Stone(Color.PURPLE, Color.RED), Rotation.FIVE_CLOCKWISE, 6, 0);
+        state.printBoard();
         System.out.println("\nTest mit Stein P,R, rota5: " + (state.getColorScores().get(ColorEnum.PURPLE)));
 
         for (ColorEnum col : state.getColorScores().keySet()) {

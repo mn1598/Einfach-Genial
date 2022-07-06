@@ -11,7 +11,7 @@ import java.util.List;
 // todo implement experiment
 public class MCTS {
 
-    private final int END_TIME = 3000;
+    private final int END_TIME = 4000;
     private Controller controller;
     private State initial;
 
@@ -92,10 +92,8 @@ public class MCTS {
         Node nodeCopy = new Node(node);
         State stateCopy = new State(node.getState());
 
-        // todo boardStatus checken und numberOf nextstates: terminiert nicht!!!
         while (!stateCopy.getGameBoard().isFull() || stateCopy.getNumberOfNext() > 0) {
             stateCopy.randomMove(); // light playout
-//            stateCopy.printBoard();
         }
         return stateCopy.getLowestScore();
     }
