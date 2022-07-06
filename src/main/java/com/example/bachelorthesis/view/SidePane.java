@@ -97,13 +97,13 @@ public class SidePane extends AnchorPane {
     }
 
     // todo delete avg time und max time, total time kann bleiben!
-    public void setLabelText(int avg, int max, int total, HashMap<ColorEnum, Integer> scores) {
+    public void setLabelScore(HashMap<ColorEnum, Integer> scores) {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                avgTimeLabel.setText("Average Time: " +  avg + "s");
-                maxTimeLabel.setText("Max Time: " + max + "s");
-                totalTimeLabel.setText("Total Time: " + total + "s");
+//                avgTimeLabel.setText("Average Time: " +  avg + "s");
+//                maxTimeLabel.setText("Max Time: " + max + "s");
+//                totalTimeLabel.setText("Total Time: " + total + "s");
                 String scoreText = "";
                 for(ColorEnum color: scores.keySet()){
                     scoreText += color + " :" + scores.get(color) + " Points\n";
@@ -112,5 +112,10 @@ public class SidePane extends AnchorPane {
             }
         });
 
+    }
+
+
+    public void updateTime(double runningTime) {
+        totalTimeLabel.setText("Total Time: " + runningTime + "s");
     }
 }

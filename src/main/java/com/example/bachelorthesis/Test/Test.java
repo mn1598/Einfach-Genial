@@ -1,6 +1,5 @@
 package com.example.bachelorthesis.Test;
 
-import com.example.bachelorthesis.ai.Node;
 import com.example.bachelorthesis.model.*;
 import javafx.scene.paint.Color;
 
@@ -17,8 +16,9 @@ public class Test {
     public static void main(String[] args) {
         Game game = new Game();
 //        testNextStates();
-//        testPointCalculation();
-        testRandomMove();
+        testPointCalculation();
+//        testRandomMove();
+//        testIsFull();
     }
 
     public static void testPointCalculation() {
@@ -92,6 +92,29 @@ public class Test {
         initial.randomMove();
         initial.nextState();
         initial.randomMove();
+    }
+
+    public static void testIsFull(){
+        GameBoard gb1 = new GameBoard();
+        System.out.println(gb1.isFull());
+
+        GameBoard gb2 = new GameBoard();
+
+        for(int i = 0; i < 11; i++){
+            for(int j = 0; j < gb2.representation[i].length; j++){
+                gb2.representation[i][j] = ColorEnum.BLUE;
+            }
+        }
+        System.out.println(gb2.isFull());
+
+        gb2.representation[5][4] = ColorEnum.NONE;
+        System.out.println(gb2.isFull());
+
+        gb2.representation[5][6] = ColorEnum.NONE;
+        System.out.println(gb2.isFull());
+
+        gb2.representation[4][4] = ColorEnum.NONE;
+        System.out.println(gb2.isFull());
     }
 
 }
