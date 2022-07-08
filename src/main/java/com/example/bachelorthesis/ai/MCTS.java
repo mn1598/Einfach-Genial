@@ -1,22 +1,41 @@
 package com.example.bachelorthesis.ai;
 
 import com.example.bachelorthesis.controller.Controller;
-import com.example.bachelorthesis.model.GameBoard;
 import com.example.bachelorthesis.model.State;
 import com.example.bachelorthesis.view.Gui;
-import javafx.application.Platform;
 
 import java.util.List;
+import java.util.Random;
 
 // todo implement experiment
 public class MCTS {
 
-    private final int END_TIME = 4000;
-    private Controller controller;
+    private final int END_TIME = 3000;
+    private Gui gui;
     private State initial;
 
-    public MCTS(Controller contr) {
-        this.controller = contr;
+    public MCTS(Gui gui) {
+        this.gui = gui;
+    }
+
+    public void randomGame() {
+        initial = new State();
+        double time = System.currentTimeMillis();
+        Random random = new Random();
+        initial.printBoard();
+        List<State> todo = initial.nextState();
+        System.out.println(todo.size());
+        while (!todo.isEmpty()) {
+            this.initial = todo.get(random.nextInt(todo.size()));
+            initial.printBoard();
+            todo = initial.nextState();
+            System.out.println(todo.size());
+        }
+        System.out.println("Game finished");
+        time = System.currentTimeMillis() - time;
+        gui.getPane().updateBoard(initial.getGameBoard());
+        gui.getSidePane().setLabelScore(initial.getColorScores());
+        gui.getSidePane().updateTime(time);
     }
 
     // todo update gui: gameboard and statistics
@@ -28,13 +47,18 @@ public class MCTS {
             System.out.println("next move");
             initial.printBoard();
             initial = nextMove(initial);
-            controller.update(initial.getGameBoard(), initial.getColorScores());
+            gui.getPane().updateBoard(initial.getGameBoard());
+            gui.getSidePane().scores = initial.getColorScores();
 
         } while (!initial.getGameBoard().isFull());
         long endTime = System.currentTimeMillis();
         double runningTime = (double) (endTime - startTime) / 1000;
-        controller.update(runningTime);
+        gui.getSidePane().updateTime(runningTime);
 
+    }
+
+    public int experiment(){
+        return 0;
     }
 
     public State nextMove(State state) {
@@ -102,7 +126,9 @@ public class MCTS {
         Node nodeCopy = node;
         while (nodeCopy != null) {
             nodeCopy.getState().addVisit();
-            nodeCopy.getState().setAvgScore((double) result / (double) nodeCopy.getState().getNumberOfVisits());
+            double visits = nodeCopy.getState().getNumberOfVisits();
+            nodeCopy.getState().setAvgScore((nodeCopy.getState().getAvgScore() * (visits - 1) + (double) result) / visits);
+//            nodeCopy.getState().setAvgScore(result / nodeCopy.getState().getNumberOfVisits());
             nodeCopy = nodeCopy.getParent();
         }
     }
