@@ -19,14 +19,20 @@ public class SidePane extends AnchorPane {
 
     private Label avgTimeLabel;
     private Label maxTimeLabel;
-    private Label totalTimeLabel;
+    public Label totalTimeLabel;
     public Label scoreLabel;
+    public Label expResult;
+    public Label resultLabel;
+    public Label resExpLabel;
+    public TextField number;
 
     private Gui gui;
     private Controller controller;
 
     public RadioButton ranExp;
     public RadioButton mctsExp;
+
+    public Button experimentButton;
 
     public HashMap<ColorEnum, Integer> scores;
 
@@ -58,7 +64,7 @@ public class SidePane extends AnchorPane {
             controller.clickOnRandom();
         });
 
-        Label resultLabel = new Label("Results");
+        resultLabel = new Label("Results");
         resultLabel.setLayoutX(20);
         resultLabel.setLayoutY(120);
         resultLabel.setFont(new Font(16));
@@ -89,42 +95,49 @@ public class SidePane extends AnchorPane {
         mctsExp.setLayoutY(355);
         this.getChildren().addAll(ranExp, mctsExp);
 
-        Button experimentButton = new Button("Start Experiment");
+        experimentButton = new Button("Start Experiment");
         experimentButton.setLayoutY(380);
         experimentButton.setLayoutX(20);
 
-        TextField number = new TextField();
+        number = new TextField();
         number.setPromptText("set number of rounds");
         number.setLayoutY(320);
         number.setLayoutX(20);
-        int n = 1;
-        try {
-            n = Integer.parseInt(number.getText());
-        } catch (Exception e) {
 
-        }
-        int finalN = n;
-        experimentButton.setOnAction(x -> controller.clickOnExperiment(finalN));
+        experimentButton.setOnAction(x -> controller.clickOnExperiment());
         this.getChildren().addAll(totalTimeLabel, scoreLabel, experimentButton, number);
+
+        expResult = new Label("Results");
+        expResult.setLayoutY(410);
+        expResult.setLayoutX(20);
+        expResult.setFont(new Font(16));
+        this.getChildren().add(expResult);
+
+        resExpLabel = new Label();
 
 
     }
 
+    // todo ist time ueberhaupt nötig?
+    public void updateExperimentLabel(int min, int max, double avg, double time) {
+        expResult.setText("min:\t" + min + " points\n" +
+                "max:\t" + max + " points\navg:\t" + avg + " points\ntime:\t" + time + " s");
+    }
+
     public void setLabelScore(HashMap<ColorEnum, Integer> scores) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                String scoreText = "";
-                for (ColorEnum color : scores.keySet()) {
-                    if (color == ColorEnum.RED) {
-                        scoreText += color + ":\t\t\t" + scores.get(color) + " Points\n";
-                    } else {
-                        scoreText += color + ":\t\t" + scores.get(color) + " Points\n";
-                    }
-                }
-                scoreLabel.setText(scoreText);
+        String scoreText = "";
+        for (ColorEnum color : scores.keySet()) {
+            if (color == ColorEnum.RED) {
+                scoreText += color + ":\t\t\t" + scores.get(color) + " Points\n";
+            } else {
+                scoreText += color + ":\t\t" + scores.get(color) + " Points\n";
             }
-        });
+        }
+        String finalText = scoreText;
+        Platform.setImplicitExit(false);
+        Platform.runLater(() -> {
+                scoreLabel.setText(finalText);
+            });
     }
 
 

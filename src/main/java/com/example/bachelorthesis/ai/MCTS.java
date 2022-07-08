@@ -11,31 +11,31 @@ import java.util.Random;
 public class MCTS {
 
     private final int END_TIME = 3000;
+    private Controller controller;
     private Gui gui;
     private State initial;
 
-    public MCTS(Gui gui) {
+    public MCTS(Controller controller, Gui gui) {
+        this.controller = controller;
         this.gui = gui;
     }
 
     public void randomGame() {
         initial = new State();
-        double time = System.currentTimeMillis();
+        long time = System.currentTimeMillis();
         Random random = new Random();
-        initial.printBoard();
         List<State> todo = initial.nextState();
-        System.out.println(todo.size());
         while (!todo.isEmpty()) {
             this.initial = todo.get(random.nextInt(todo.size()));
             initial.printBoard();
             todo = initial.nextState();
-            System.out.println(todo.size());
         }
-        System.out.println("Game finished");
         time = System.currentTimeMillis() - time;
         gui.getPane().updateBoard(initial.getGameBoard());
         gui.getSidePane().setLabelScore(initial.getColorScores());
-        gui.getSidePane().updateTime(time);
+        gui.getSidePane().updateTime((double) time / 1000);
+
+        controller.results.add(initial.getLowestScore());
     }
 
     // todo update gui: gameboard and statistics
@@ -47,18 +47,14 @@ public class MCTS {
             System.out.println("next move");
             initial.printBoard();
             initial = nextMove(initial);
-            gui.getPane().updateBoard(initial.getGameBoard());
-            gui.getSidePane().scores = initial.getColorScores();
+            controller.update(initial.getGameBoard(), initial.getColorScores());
 
         } while (!initial.getGameBoard().isFull());
         long endTime = System.currentTimeMillis();
         double runningTime = (double) (endTime - startTime) / 1000;
-        gui.getSidePane().updateTime(runningTime);
+        controller.update(runningTime);
 
-    }
-
-    public int experiment(){
-        return 0;
+        controller.results.add(initial.getLowestScore());
     }
 
     public State nextMove(State state) {
