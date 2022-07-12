@@ -41,7 +41,6 @@ public class MCTS {
     }
 
     private void updateGui() {
-        System.out.println("hi");
         controller.update(initial.getGameBoard(), initial.getColorScores());
         controller.results.add(initial.getLowestScore());
     }

@@ -123,10 +123,8 @@ public class SidePane extends AnchorPane {
 
 
     public void updateExperimentLabel(int min, int max, double avg, double time) {
-
         expResult.setText("min:\t" + min + " points\n" +
                 "max:\t" + max + " points\navg:\t" + avg + " points\ntime:\t" + time + " s");
-
     }
 
     public void setLabelScore(HashMap<ColorEnum, Integer> scores) {
@@ -139,20 +137,11 @@ public class SidePane extends AnchorPane {
             }
         }
         String finalText = scoreText;
-
-
-                scoreLabel.setText(finalText);
-
-
-
+        scoreLabel.setText(finalText);
     }
 
 
     public void updateTime(double runningTime) {
-//        Platform.runLater(()->{
-//
-//        });
-                totalTimeLabel.setText("Total Time:\t" + runningTime + "s");
-
+        totalTimeLabel.setText("Total Time:\t" + runningTime + "s");
     }
 }

@@ -30,9 +30,9 @@ public class Controller {
     }
 
     public void clickOnStart(ActionEvent event) {
+        gui.reset();
         MCTS ai = new MCTS(this, gui);
         results = new ArrayList<>();
-        gui.reset();
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -104,10 +104,7 @@ public class Controller {
     }
 
     public void update(double runningTime) {
-
         gui.getSidePane().updateTime(runningTime);
-
-
     }
 
     public void reset() {
