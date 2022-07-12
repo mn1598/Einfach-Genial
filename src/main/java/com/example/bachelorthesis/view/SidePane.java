@@ -2,8 +2,6 @@ package com.example.bachelorthesis.view;
 
 import com.example.bachelorthesis.controller.Controller;
 import com.example.bachelorthesis.model.ColorEnum;
-import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
@@ -70,10 +68,10 @@ public class SidePane extends AnchorPane {
         this.getChildren().add(resultLabel);
 
         totalTimeLabel = new Label();
-        totalTimeLabel.setLayoutY(150);
+        totalTimeLabel.setLayoutY(260);
         totalTimeLabel.setLayoutX(20);
         scoreLabel = new Label();
-        scoreLabel.setLayoutY(170);
+        scoreLabel.setLayoutY(150);
         scoreLabel.setLayoutX(20);
 
         Label expLabel = new Label("Experiment");

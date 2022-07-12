@@ -1,14 +1,13 @@
 package com.example.bachelorthesis.view;
 
 import com.example.bachelorthesis.model.GameBoard;
-import javafx.application.Platform;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 
 public class CentrePane extends GridPane {
 
-    private Polygon[][] rows;
+    public Polygon[][] rows;
 
     public CentrePane() {
         rows = new Polygon[][]{
@@ -85,6 +84,5 @@ public class CentrePane extends GridPane {
                 }
             }
         }
-
     }
 }

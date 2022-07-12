@@ -1,6 +1,9 @@
 package com.example.bachelorthesis.model;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
 
 public class State {
     private GameBoard gameBoard;
@@ -344,64 +347,64 @@ public class State {
                 int offset = 1;
                 boolean sameColor = true;
                 int times = 0;
-                    try {
-                        while (sameColor) {
-                            if (counter == 0 && ((colorCounter == 0 && rotation.ordinal() != counter) || (colorCounter == 1 && rotation.ordinal() != 3))) {
-                                if (gameBoard.representation[i][j + offset] == stone.stoneColor[colorCounter]) {
-                                    colorScores.put(stone.stoneColor[colorCounter], colorScores.get(stone.stoneColor[colorCounter]) + 1);
-                                    offset++;
-                                } else {
-                                    sameColor = false;
-                                }
-                            } else if (counter == 1 && ((colorCounter == 0 && rotation.ordinal() != counter) || (colorCounter == 1 && rotation.ordinal() != 4))) {
-                                if (i < 5 && gameBoard.representation[i + offset][j + offset] == stone.stoneColor[colorCounter] ||
-                                        (i >= 5 && gameBoard.representation[i + offset][j] == stone.stoneColor[colorCounter])) {
-                                    colorScores.put(stone.stoneColor[colorCounter], colorScores.get(stone.stoneColor[colorCounter]) + 1);
-                                    offset++;
-                                } else {
-                                    sameColor = false;
-                                }
-                            } else if (counter == 2 && ((colorCounter == 0 && rotation.ordinal() != counter) || (colorCounter == 1 && rotation.ordinal() != 5))) {
-                                if ((i < 5 && gameBoard.representation[i + offset][j] == stone.stoneColor[colorCounter]) ||
-                                        (j > 0 && i >= 5 && (gameBoard.representation[i + offset][j - offset] == stone.stoneColor[colorCounter]))) {
-                                    colorScores.put(stone.stoneColor[colorCounter], colorScores.get(stone.stoneColor[colorCounter]) + 1);
-                                    offset++;
-                                } else {
-                                    sameColor = false;
-                                }
-                            } else if (counter == 3 && ((colorCounter == 0 && rotation.ordinal() != counter) || (colorCounter == 1 && rotation.ordinal() != 0))) {
-                                if (j > offset && gameBoard.representation[i][j - offset] == stone.stoneColor[colorCounter]) {
-                                    colorScores.put(stone.stoneColor[colorCounter], colorScores.get(stone.stoneColor[colorCounter]) + 1);
-                                    offset++;
-                                } else {
-                                    sameColor = false;
-                                }
-                            } else if (counter == 4 && ((colorCounter == 0 && rotation.ordinal() != counter) || (colorCounter == 1 && rotation.ordinal() != 1))) {
-                                if ((i > 5 && gameBoard.representation[i - offset][j] == stone.stoneColor[colorCounter]) ||
-                                        (i <= 5 && j > offset && gameBoard.representation[i - offset][j - offset] == stone.stoneColor[colorCounter])) {
-                                    colorScores.put(stone.stoneColor[colorCounter], colorScores.get(stone.stoneColor[colorCounter]) + 1);
-                                    offset++;
-                                    //System.out.println(colorCounter + ", " + i + ", " + j);
-                                } else {
-                                    sameColor = false;
-                                }
-                            } else if (counter == 5 && ((colorCounter == 0 && rotation.ordinal() != counter) || (colorCounter == 1 && rotation.ordinal() != 2))) {
-                                if ((i > 5 && gameBoard.representation[i - offset][j + offset] == stone.stoneColor[colorCounter]) ||
-                                        (i <= 5 && gameBoard.representation[i - offset][j] == stone.stoneColor[colorCounter])) {
-                                    colorScores.put(stone.stoneColor[colorCounter], colorScores.get(stone.stoneColor[colorCounter]) + 1);
-                                    offset++;
-                                } else {
-                                    sameColor = false;
-                                }
+                try {
+                    while (sameColor) {
+                        if (counter == 0 && ((colorCounter == 0 && rotation.ordinal() != counter) || (colorCounter == 1 && rotation.ordinal() != 3))) {
+                            if (gameBoard.representation[i][j + offset] == stone.stoneColor[colorCounter]) {
+                                colorScores.put(stone.stoneColor[colorCounter], colorScores.get(stone.stoneColor[colorCounter]) + 1);
+                                offset++;
                             } else {
-                                break;
+                                sameColor = false;
                             }
+                        } else if (counter == 1 && ((colorCounter == 0 && rotation.ordinal() != counter) || (colorCounter == 1 && rotation.ordinal() != 4))) {
+                            if (i < 5 && gameBoard.representation[i + offset][j + offset] == stone.stoneColor[colorCounter] ||
+                                    (i >= 5 && gameBoard.representation[i + offset][j] == stone.stoneColor[colorCounter])) {
+                                colorScores.put(stone.stoneColor[colorCounter], colorScores.get(stone.stoneColor[colorCounter]) + 1);
+                                offset++;
+                            } else {
+                                sameColor = false;
+                            }
+                        } else if (counter == 2 && ((colorCounter == 0 && rotation.ordinal() != counter) || (colorCounter == 1 && rotation.ordinal() != 5))) {
+                            if ((i < 5 && gameBoard.representation[i + offset][j] == stone.stoneColor[colorCounter]) ||
+                                    (j > 0 && i >= 5 && (gameBoard.representation[i + offset][j - offset] == stone.stoneColor[colorCounter]))) {
+                                colorScores.put(stone.stoneColor[colorCounter], colorScores.get(stone.stoneColor[colorCounter]) + 1);
+                                offset++;
+                            } else {
+                                sameColor = false;
+                            }
+                        } else if (counter == 3 && ((colorCounter == 0 && rotation.ordinal() != counter) || (colorCounter == 1 && rotation.ordinal() != 0))) {
+                            if (j > offset && gameBoard.representation[i][j - offset] == stone.stoneColor[colorCounter]) {
+                                colorScores.put(stone.stoneColor[colorCounter], colorScores.get(stone.stoneColor[colorCounter]) + 1);
+                                offset++;
+                            } else {
+                                sameColor = false;
+                            }
+                        } else if (counter == 4 && ((colorCounter == 0 && rotation.ordinal() != counter) || (colorCounter == 1 && rotation.ordinal() != 1))) {
+                            if ((i > 5 && gameBoard.representation[i - offset][j] == stone.stoneColor[colorCounter]) ||
+                                    (i <= 5 && j > offset && gameBoard.representation[i - offset][j - offset] == stone.stoneColor[colorCounter])) {
+                                colorScores.put(stone.stoneColor[colorCounter], colorScores.get(stone.stoneColor[colorCounter]) + 1);
+                                offset++;
+                                //System.out.println(colorCounter + ", " + i + ", " + j);
+                            } else {
+                                sameColor = false;
+                            }
+                        } else if (counter == 5 && ((colorCounter == 0 && rotation.ordinal() != counter) || (colorCounter == 1 && rotation.ordinal() != 2))) {
+                            if ((i > 5 && gameBoard.representation[i - offset][j + offset] == stone.stoneColor[colorCounter]) ||
+                                    (i <= 5 && gameBoard.representation[i - offset][j] == stone.stoneColor[colorCounter])) {
+                                colorScores.put(stone.stoneColor[colorCounter], colorScores.get(stone.stoneColor[colorCounter]) + 1);
+                                offset++;
+                            } else {
+                                sameColor = false;
+                            }
+                        } else {
+                            break;
                         }
-
-                    } catch (ArrayIndexOutOfBoundsException e) {
-                        //e.printStackTrace();
-//                        System.out.println("Ueberlauf!!" + e);
                     }
+
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    //e.printStackTrace();
+//                        System.out.println("Ueberlauf!!" + e);
+                }
 
             }
             //bereite i, j ccordinates fuer zweite farbe vom stein vor
@@ -450,11 +453,11 @@ public class State {
         this.nextStates = nextState();
         State next = null;
 
-            if (!this.nextStates.isEmpty()) {
-                next = this.nextStates.get(random.nextInt(this.nextStates.size()));
-            } else {
-                return;
-            }
+        if (!this.nextStates.isEmpty()) {
+            next = this.nextStates.get(random.nextInt(this.nextStates.size()));
+        } else {
+            return;
+        }
 
         next.colorScores.forEach((x, y) -> this.colorScores.put(x, y));
         this.firstMove = false;

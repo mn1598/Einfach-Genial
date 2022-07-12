@@ -7,23 +7,14 @@ import com.example.bachelorthesis.view.Gui;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import org.controlsfx.control.action.ActionUtils;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.ResourceBundle;
 
 public class Controller {
 
     private final Gui gui;
-    private Label totalTimeLabelSim;
-    private Label simScores;
-    private Label expScores;
-    public ArrayList<Integer> results;
+    public static ArrayList<Integer> results;
 
     public Controller(Gui gui) {
         this.gui = gui;
@@ -38,7 +29,16 @@ public class Controller {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        ai.start();
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                ai.start();
+                return null;
+            }
+        };
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
     }
 
     public void clickOnRandom(ActionEvent event) {
@@ -50,10 +50,20 @@ public class Controller {
         }
         results = new ArrayList<>();
         MCTS ai = new MCTS(this, gui);
-        ai.randomGame();
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                ai.randomGame();
+                return null;
+            }
+        };
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
     }
 
     public void clickOnExperiment(ActionEvent event) {
+        gui.reset();
         int n = 1;
         try {
             n = Integer.parseInt(gui.getSidePane().number.getText());
@@ -65,42 +75,68 @@ public class Controller {
         gui.getSidePane().experimentButton.setDisable(true);
         // hier wird das experiment mit 1000 spielen durchgeführt
         results = new ArrayList<>();
-        double time = System.currentTimeMillis();
+        long time = System.currentTimeMillis();
         MCTS ai = new MCTS(this, gui);
         for (int i = 0; i < n; i++) {
             if (randomGame) {
                 // hier zufallsspiele ausfuehren
-                ai.randomGame();
+                Task<Void> task = new Task<Void>() {
+                    @Override
+                    protected Void call() throws Exception {
+                        ai.randomGame();
+                        updateExperimentResult(time);
+                        return null;
+                    }
+                };
+                Thread thread = new Thread(task);
+                thread.setDaemon(true);
+                thread.start();
+                while(thread.isAlive());
             } else {
                 // hier mcts spiele ausfuehren
-                ai.start();
+                Task<Void> task = new Task<Void>() {
+                    @Override
+                    protected Void call() throws Exception {
+                        ai.start();
+                        return null;
+                    }
+                };
+                Thread thread = new Thread(task);
+                thread.setDaemon(true);
+                thread.start();
+                while(thread.isAlive());
             }
-            gui.reset();
+            Platform.runLater(() -> {
+                gui.reset();
+            });
         }
-        // get maxPoints, minPoints, avgPoints, totalTime
-        time = (System.currentTimeMillis() - time) / 1000;
-        double avg = 0.0;
-        int min = Integer.MAX_VALUE;
-        int max = 0;
-        for (int x : results) {
-            avg += (double) x;
-            if (x < min) {
-                min = x;
-            }
-            if (x > max) {
-                max = x;
-            }
-        }
-        avg /= results.size();
+    }
 
-        gui.getSidePane().updateExperimentLabel(min, max, avg, time);
-        gui.getSidePane().experimentButton.setDisable(false);
+    public void updateExperimentResult(long time){
+        Platform.runLater(()->{
+            // get maxPoints, minPoints, avgPoints, totalTime
+            long total = (System.currentTimeMillis() - time) / 1000;
+            double avg = 0.0;
+            int min = Integer.MAX_VALUE;
+            int max = 0;
+            for (int x : results) {
+                avg += (double) x;
+                if (x < min) {
+                    min = x;
+                }
+                if (x > max) {
+                    max = x;
+                }
+            }
+            avg /= results.size();
+            gui.getSidePane().updateExperimentLabel(min, max, avg, total);
+            gui.getSidePane().experimentButton.setDisable(false);
+        });
     }
 
     public void update(GameBoard gameBoard, HashMap<ColorEnum, Integer> colorScores) {
         gui.getSidePane().setLabelScore(colorScores);
         gui.getPane().updateBoard(gameBoard);
-
     }
 
     public void update(double runningTime) {

@@ -3,6 +3,7 @@ package com.example.bachelorthesis.ai;
 import com.example.bachelorthesis.controller.Controller;
 import com.example.bachelorthesis.model.State;
 import com.example.bachelorthesis.view.Gui;
+import javafx.application.Platform;
 
 import java.util.List;
 import java.util.Random;
@@ -36,16 +37,19 @@ public class MCTS {
             updateGui();
         }
         time = System.currentTimeMillis() - time;
-
-        controller.update((double) time / 1000);
+        double finalTime = (double) time;
+        Platform.runLater(()->{
+            controller.update((double) finalTime / 1000);
+        });
+        Controller.results.add(initial.getLowestScore());
     }
 
     private void updateGui() {
-        controller.update(initial.getGameBoard(), initial.getColorScores());
-        controller.results.add(initial.getLowestScore());
+        Platform.runLater(()->{
+            controller.update(initial.getGameBoard(), initial.getColorScores());
+        });
     }
 
-    // todo update gui: gameboard and statistics
     public void start() {
 
         initial = new State();
@@ -58,11 +62,14 @@ public class MCTS {
             initial.getColorScores().forEach((x, y) -> System.out.println(x + ": " + y));
             System.out.println("----------------------------");
             updateGui();
+            Controller.results.add(initial.getLowestScore());
         } while (!initial.getGameBoard().isFull());
         long endTime = System.currentTimeMillis();
         double runningTime = (double) (endTime - startTime) / 1000;
-        controller.update(runningTime);
-        controller.results.add(initial.getLowestScore());
+        double finalTime = (double) runningTime;
+        Platform.runLater(()->{
+            controller.update((double) finalTime / 1000);
+        });
     }
 
     public State nextMove(State state) {
