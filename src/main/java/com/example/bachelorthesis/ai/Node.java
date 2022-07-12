@@ -42,12 +42,10 @@ public class Node {
     }
 
     public Node randomChild(){
-        // todo return a random child, maybe use heuristic value instead
         Random random = new Random();
         return children.get(random.nextInt(children.size()));
     }
 
-    // todo nochmal checken
     public Node bestChild(){
         Node best = this;
         Random random = new Random();

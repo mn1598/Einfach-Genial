@@ -51,6 +51,6 @@ public class Stone {
     }
 
     public String toString() {
-        return stoneColor[0] + ", " + stoneColor[1];
+        return "Stone: " + stoneColor[0] + ", " + stoneColor[1];
     }
 }

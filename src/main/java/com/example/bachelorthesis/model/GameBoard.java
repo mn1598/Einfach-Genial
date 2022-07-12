@@ -36,7 +36,6 @@ public class GameBoard {
         representation[10][5] = ColorEnum.ORANGE;
     }
 
-    // todo outofbounds exception fixen
     public boolean isFull() {
         ColorEnum none = ColorEnum.NONE;
         for (int i = 0; i < representation.length; i++) {

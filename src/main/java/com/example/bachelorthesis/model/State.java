@@ -335,7 +335,6 @@ public class State {
         }
     }
 
-    // todo alle richtungen mit bounds & gleicher Stein = keine Punkte
     public void calculatePoints(Stone stone, Rotation rotation, int i, int j) {
         //System.out.println("start calculating points");
         int counter;

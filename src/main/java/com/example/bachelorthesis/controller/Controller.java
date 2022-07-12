@@ -5,15 +5,19 @@ import com.example.bachelorthesis.model.ColorEnum;
 import com.example.bachelorthesis.model.GameBoard;
 import com.example.bachelorthesis.view.Gui;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import org.controlsfx.control.action.ActionUtils;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
-public class Controller implements Initializable {
+public class Controller {
 
     private final Gui gui;
     private Label totalTimeLabelSim;
@@ -25,37 +29,31 @@ public class Controller implements Initializable {
         this.gui = gui;
     }
 
-    public void clickOnStart() {
-        gui.reset();
-        this.totalTimeLabelSim = gui.getSidePane().totalTimeLabel;
-        this.expScores = gui.getSidePane().resExpLabel;
-        this.simScores = gui.getSidePane().scoreLabel;
+    public void clickOnStart(ActionEvent event) {
         MCTS ai = new MCTS(this, gui);
-
-        Platform.setImplicitExit(false);
-        Platform.runLater(() ->{
-            ai.start();
-        });
-
-//        Platform.runLater(new Runnable() {
-//            @Override
-//            public void run() {
-//                String scoreText = "";
-//                for(ColorEnum color: gui.getSidePane().scores.keySet()){
-//                    scoreText += color + " :" + gui.getSidePane().scores.get(color) + " Points\n";
-//                }
-//                gui.getSidePane().scoreLabel.setText(scoreText);
-//            }
-//        });
+        results = new ArrayList<>();
+        gui.reset();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        ai.start();
     }
 
-    public void clickOnRandom() {
+    public void clickOnRandom(ActionEvent event) {
         gui.reset();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        results = new ArrayList<>();
         MCTS ai = new MCTS(this, gui);
         ai.randomGame();
     }
 
-    public void clickOnExperiment() {
+    public void clickOnExperiment(ActionEvent event) {
         int n = 1;
         try {
             n = Integer.parseInt(gui.getSidePane().number.getText());
@@ -77,18 +75,19 @@ public class Controller implements Initializable {
                 // hier mcts spiele ausfuehren
                 ai.start();
             }
+            gui.reset();
         }
         // get maxPoints, minPoints, avgPoints, totalTime
         time = (System.currentTimeMillis() - time) / 1000;
         double avg = 0.0;
         int min = Integer.MAX_VALUE;
         int max = 0;
-        for(int x: results){
+        for (int x : results) {
             avg += (double) x;
-            if(x < min){
+            if (x < min) {
                 min = x;
             }
-            if(x > max){
+            if (x > max) {
                 max = x;
             }
         }
@@ -101,13 +100,17 @@ public class Controller implements Initializable {
     public void update(GameBoard gameBoard, HashMap<ColorEnum, Integer> colorScores) {
         gui.getSidePane().setLabelScore(colorScores);
         gui.getPane().updateBoard(gameBoard);
+
     }
 
     public void update(double runningTime) {
+
         gui.getSidePane().updateTime(runningTime);
+
+
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void reset() {
+        gui.reset();
     }
 }

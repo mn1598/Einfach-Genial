@@ -7,7 +7,6 @@ import com.example.bachelorthesis.view.Gui;
 import java.util.List;
 import java.util.Random;
 
-// todo implement experiment
 public class MCTS {
 
     private final int END_TIME = 3000;
@@ -25,16 +24,19 @@ public class MCTS {
         long time = System.currentTimeMillis();
         Random random = new Random();
         List<State> todo = initial.nextState();
+        initial.printBoard();
         while (!todo.isEmpty()) {
+            System.out.println("next move");
+            System.out.println(initial.getCurrentStone());
             this.initial = todo.get(random.nextInt(todo.size()));
             initial.printBoard();
+            initial.getColorScores().forEach((x, y) -> System.out.println(x + ": " + y));
+            System.out.println("----------------------------");
             todo = initial.nextState();
         }
         time = System.currentTimeMillis() - time;
-        gui.getPane().updateBoard(initial.getGameBoard());
-        gui.getSidePane().setLabelScore(initial.getColorScores());
-        gui.getSidePane().updateTime((double) time / 1000);
-
+        controller.update(initial.getGameBoard(), initial.getColorScores());
+        controller.update((double) time / 1000);
         controller.results.add(initial.getLowestScore());
     }
 
@@ -42,18 +44,19 @@ public class MCTS {
     public void start() {
 
         initial = new State();
+        initial.printBoard();
         long startTime = System.currentTimeMillis();
         do {
             System.out.println("next move");
-            initial.printBoard();
             initial = nextMove(initial);
+            initial.printBoard();
+            initial.getColorScores().forEach((x, y) -> System.out.println(x + ": " + y));
+            System.out.println("----------------------------");
             controller.update(initial.getGameBoard(), initial.getColorScores());
-
         } while (!initial.getGameBoard().isFull());
         long endTime = System.currentTimeMillis();
         double runningTime = (double) (endTime - startTime) / 1000;
         controller.update(runningTime);
-
         controller.results.add(initial.getLowestScore());
     }
 
@@ -85,9 +88,9 @@ public class MCTS {
             // Backpropagation
             backpropagate(todo, result);
         }
+        System.out.println(tree.root.getState().getCurrentStone());
         Node best = root.bestChild();
         tree.root = best;
-        best.getState().getColorScores().forEach((x, y) -> System.out.println(x + ": " + y));
         return best.getState();
     }
 
@@ -109,9 +112,7 @@ public class MCTS {
     }
 
     public int simulate(Node node) {
-        Node nodeCopy = new Node(node);
         State stateCopy = new State(node.getState());
-
         while (!stateCopy.getGameBoard().isFull() || stateCopy.getNumberOfNext() > 0) {
             stateCopy.randomMove(); // light playout
         }

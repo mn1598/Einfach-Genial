@@ -3,14 +3,13 @@ package com.example.bachelorthesis.view;
 import com.example.bachelorthesis.controller.Controller;
 import com.example.bachelorthesis.model.ColorEnum;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 import java.util.HashMap;
 
-// todo anzeige für experiment mit 1000 spielen!!!!
 public class SidePane extends AnchorPane {
 
     private int avgTime;
@@ -53,7 +52,7 @@ public class SidePane extends AnchorPane {
         startButton.setLayoutY(40);
         this.getChildren().add(startButton);
         startButton.setOnAction(x -> {
-            controller.clickOnStart();
+            controller.clickOnStart(x);
         });
 
         Button startRandom = new Button("Start Random Game");
@@ -61,7 +60,7 @@ public class SidePane extends AnchorPane {
         startRandom.setLayoutY(80);
         this.getChildren().add(startRandom);
         startRandom.setOnAction(x -> {
-            controller.clickOnRandom();
+            controller.clickOnRandom(x);
         });
 
         resultLabel = new Label("Results");
@@ -104,7 +103,7 @@ public class SidePane extends AnchorPane {
         number.setLayoutY(320);
         number.setLayoutX(20);
 
-        experimentButton.setOnAction(x -> controller.clickOnExperiment());
+        experimentButton.setOnAction(x -> controller.clickOnExperiment(x));
         this.getChildren().addAll(totalTimeLabel, scoreLabel, experimentButton, number);
 
         expResult = new Label("Results");
@@ -115,13 +114,19 @@ public class SidePane extends AnchorPane {
 
         resExpLabel = new Label();
 
-
+        Button resetButton = new Button("Reset");
+        resetButton.setLayoutX(20);
+        resetButton.setLayoutY(550);
+        resetButton.setOnAction(x -> controller.reset());
+        this.getChildren().add(resetButton);
     }
 
-    // todo ist time ueberhaupt nötig?
+
     public void updateExperimentLabel(int min, int max, double avg, double time) {
+
         expResult.setText("min:\t" + min + " points\n" +
                 "max:\t" + max + " points\navg:\t" + avg + " points\ntime:\t" + time + " s");
+
     }
 
     public void setLabelScore(HashMap<ColorEnum, Integer> scores) {
@@ -134,14 +139,20 @@ public class SidePane extends AnchorPane {
             }
         }
         String finalText = scoreText;
-        Platform.setImplicitExit(false);
-        Platform.runLater(() -> {
+
+
                 scoreLabel.setText(finalText);
-            });
+
+
+
     }
 
 
     public void updateTime(double runningTime) {
-        totalTimeLabel.setText("Total Time:\t" + runningTime + "s");
+//        Platform.runLater(()->{
+//
+//        });
+                totalTimeLabel.setText("Total Time:\t" + runningTime + "s");
+
     }
 }
