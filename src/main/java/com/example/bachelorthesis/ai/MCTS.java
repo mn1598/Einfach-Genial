@@ -33,10 +33,16 @@ public class MCTS {
             initial.getColorScores().forEach((x, y) -> System.out.println(x + ": " + y));
             System.out.println("----------------------------");
             todo = initial.nextState();
+            updateGui();
         }
         time = System.currentTimeMillis() - time;
-        controller.update(initial.getGameBoard(), initial.getColorScores());
+
         controller.update((double) time / 1000);
+    }
+
+    private void updateGui() {
+        System.out.println("hi");
+        controller.update(initial.getGameBoard(), initial.getColorScores());
         controller.results.add(initial.getLowestScore());
     }
 
@@ -52,7 +58,7 @@ public class MCTS {
             initial.printBoard();
             initial.getColorScores().forEach((x, y) -> System.out.println(x + ": " + y));
             System.out.println("----------------------------");
-            controller.update(initial.getGameBoard(), initial.getColorScores());
+            updateGui();
         } while (!initial.getGameBoard().isFull());
         long endTime = System.currentTimeMillis();
         double runningTime = (double) (endTime - startTime) / 1000;
