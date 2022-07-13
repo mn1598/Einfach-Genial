@@ -36,12 +36,13 @@ public class MCTS {
             todo = initial.nextState();
             updateGui();
         }
-        time = System.currentTimeMillis() - time;
-        double finalTime = (double) time;
-        Platform.runLater(()->{
-            controller.update((double) finalTime / 1000);
-        });
         Controller.results.add(initial.getLowestScore());
+        time = System.currentTimeMillis() - time;
+        double finalTime = (double) time / 1000;
+        Platform.runLater(()->{
+            controller.update(finalTime);
+            controller.updateExperimentResult(finalTime);
+        });
     }
 
     private void updateGui() {
@@ -62,13 +63,13 @@ public class MCTS {
             initial.getColorScores().forEach((x, y) -> System.out.println(x + ": " + y));
             System.out.println("----------------------------");
             updateGui();
-            Controller.results.add(initial.getLowestScore());
         } while (!initial.getGameBoard().isFull());
+        Controller.results.add(initial.getLowestScore());
         long endTime = System.currentTimeMillis();
         double runningTime = (double) (endTime - startTime) / 1000;
-        double finalTime = (double) runningTime;
         Platform.runLater(()->{
-            controller.update((double) finalTime / 1000);
+            controller.update((double) runningTime);
+            controller.updateExperimentResult(runningTime);
         });
     }
 
@@ -137,7 +138,6 @@ public class MCTS {
             nodeCopy.getState().addVisit();
             double visits = nodeCopy.getState().getNumberOfVisits();
             nodeCopy.getState().setAvgScore((nodeCopy.getState().getAvgScore() * (visits - 1) + (double) result) / visits);
-//            nodeCopy.getState().setAvgScore(result / nodeCopy.getState().getNumberOfVisits());
             nodeCopy = nodeCopy.getParent();
         }
     }
