@@ -2,7 +2,6 @@ package com.example.bachelorthesis.ai;
 
 import com.example.bachelorthesis.controller.Controller;
 import com.example.bachelorthesis.model.State;
-import com.example.bachelorthesis.view.Gui;
 import javafx.application.Platform;
 
 import java.util.List;
@@ -12,12 +11,10 @@ public class MCTS {
 
     private final int END_TIME = 3000;
     private Controller controller;
-    private Gui gui;
     private State initial;
 
-    public MCTS(Controller controller, Gui gui) {
+    public MCTS(Controller controller) {
         this.controller = controller;
-        this.gui = gui;
     }
 
     public void randomGame() {
@@ -46,9 +43,7 @@ public class MCTS {
     }
 
     private void updateGui() {
-        Platform.runLater(()->{
-            controller.update(initial.getGameBoard(), initial.getColorScores());
-        });
+        Platform.runLater(()-> controller.update(initial.getGameBoard(), initial.getColorScores()));
     }
 
     public void start() {
@@ -68,7 +63,7 @@ public class MCTS {
         long endTime = System.currentTimeMillis();
         double runningTime = (double) (endTime - startTime) / 1000;
         Platform.runLater(()->{
-            controller.update((double) runningTime);
+            controller.update(runningTime);
             controller.updateExperimentResult(runningTime);
         });
     }

@@ -18,13 +18,6 @@ public class Node {
         children = new ArrayList<>();
     }
 
-    public Node(Node node){
-        this.state = new State(node.state);
-        this.parent = node.parent;
-        this.children = new ArrayList<>();
-        node.children.forEach(x -> this.children.add(x));
-    }
-
     public State getState() {
         return state;
     }

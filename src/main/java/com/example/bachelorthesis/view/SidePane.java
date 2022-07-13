@@ -10,12 +10,6 @@ import java.util.HashMap;
 
 public class SidePane extends AnchorPane {
 
-    private int avgTime;
-    private int maxTime;
-    private int totalTime;
-
-    private Label avgTimeLabel;
-    private Label maxTimeLabel;
     public Label totalTimeLabel;
     public Label scoreLabel;
     public Label expResult;
@@ -30,8 +24,6 @@ public class SidePane extends AnchorPane {
     public RadioButton mctsExp;
 
     public Button experimentButton;
-
-    public HashMap<ColorEnum, Integer> scores;
 
     public SidePane(Gui gui) {
         this.gui = gui;
@@ -119,7 +111,6 @@ public class SidePane extends AnchorPane {
         this.getChildren().add(resetButton);
     }
 
-
     public void updateExperimentLabel(int min, int max, double avg, double time) {
         expResult.setText("min:\t" + min + " points\n" +
                 "max:\t" + max + " points\navg:\t" + avg + " points\ntime:\t" + time + " s");
@@ -137,7 +128,6 @@ public class SidePane extends AnchorPane {
         String finalText = scoreText;
         scoreLabel.setText(finalText);
     }
-
 
     public void updateTime(double runningTime) {
         totalTimeLabel.setText("Total Time:\t" + runningTime + "s");

@@ -60,13 +60,7 @@ public class Game {
 
     public Game(Game game) {
         this.stones = new ArrayList<>();
-        for(Stone stone: game.stones){
-            this.stones.add(stone);
-        }
-    }
-
-    public boolean getFinished() {
-        return stones.size() == 0 ? true : false;
+        this.stones.addAll(game.stones);
     }
 
     public Stone drawStone() {

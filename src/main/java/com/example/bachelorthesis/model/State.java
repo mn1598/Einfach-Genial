@@ -342,11 +342,9 @@ public class State {
         //System.out.println("start calculating points");
         int counter;
         for (int colorCounter = 0; colorCounter < 2; colorCounter++) { // sorgt dafuer, dass beide farben vom gelegten Stein geprüft werden
-            A:
             for (counter = 0; counter < 6; counter++) { // sorgt dafuer, dass jede richtung gecheckt wird
                 int offset = 1;
                 boolean sameColor = true;
-                int times = 0;
                 try {
                     while (sameColor) {
                         if (counter == 0 && ((colorCounter == 0 && rotation.ordinal() != counter) || (colorCounter == 1 && rotation.ordinal() != 3))) {
@@ -402,7 +400,6 @@ public class State {
                     }
 
                 } catch (ArrayIndexOutOfBoundsException e) {
-                    //e.printStackTrace();
 //                        System.out.println("Ueberlauf!!" + e);
                 }
 
@@ -482,24 +479,12 @@ public class State {
         this.gameBoard = gameBoard;
     }
 
-    public boolean isTerminal() {
-        return terminal;
-    }
-
-    public Game getGame() {
-        return game;
-    }
-
     public GameBoard getGameBoard() {
         return gameBoard;
     }
 
     public HashMap<ColorEnum, Integer> getColorScores() {
         return colorScores;
-    }
-
-    public boolean isFirstMove() {
-        return firstMove;
     }
 
     public int getNumberOfVisits() {

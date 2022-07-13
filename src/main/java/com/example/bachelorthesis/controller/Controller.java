@@ -22,14 +22,14 @@ public class Controller {
 
     public void clickOnStart(ActionEvent event) {
         gui.reset();
-        MCTS ai = new MCTS(this, gui);
+        MCTS ai = new MCTS(this);
         results = new ArrayList<>();
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        Task<Void> task = new Task<Void>() {
+        Task<Void> task = new Task<>() {
             @Override
             protected Void call() throws Exception {
                 ai.start();
@@ -49,8 +49,8 @@ public class Controller {
             throw new RuntimeException(e);
         }
         results = new ArrayList<>();
-        MCTS ai = new MCTS(this, gui);
-        Task<Void> task = new Task<Void>() {
+        MCTS ai = new MCTS(this);
+        Task<Void> task = new Task<>() {
             @Override
             protected Void call() throws Exception {
                 ai.randomGame();
@@ -64,25 +64,22 @@ public class Controller {
 
     public void clickOnExperiment(ActionEvent event) {
         gui.reset();
-        int n = 1;
+        int n;
         try {
             n = Integer.parseInt(gui.getSidePane().number.getText());
         } catch (Exception e) {
-
+            n = 1;
         }
         boolean randomGame = gui.getSidePane().ranExp.isSelected();
         gui.getSidePane().experimentButton.setDisable(true);
         // hier wird das experiment mit 1000 spielen durchgeführt
         results = new ArrayList<>();
-        long time = System.currentTimeMillis();
-        MCTS ai = new MCTS(this, gui);
+        MCTS ai = new MCTS(this);
         for (int i = 0; i < n; i++) {
-            Platform.runLater(() -> {
-                gui.reset();
-            });
+            Platform.runLater(gui::reset);
             if (randomGame) {
-                // hier zufallsspiele ausfuehren
-                Task<Void> task = new Task<Void>() {
+                // hier zufallsspiele ausfuhren
+                Task<Void> task = new Task<>() {
                     @Override
                     protected Void call() throws Exception {
                         ai.randomGame();
@@ -95,8 +92,8 @@ public class Controller {
                 thread.start();
                 while (thread.isAlive()) ;
             } else {
-                // hier mcts spiele ausfuehren
-                Task<Void> task = new Task<Void>() {
+                // hier mcts spiele ausfuhren
+                Task<Void> task = new Task<>() {
                     @Override
                     protected Void call() throws Exception {
                         ai.start();
@@ -116,7 +113,7 @@ public class Controller {
         int min = Integer.MAX_VALUE;
         int max = 0;
         for (int x : results) {
-            avg += (double) x;
+            avg += x;
             if (x < min) {
                 min = x;
             }

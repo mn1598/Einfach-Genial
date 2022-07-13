@@ -34,22 +34,6 @@ public class Stone {
         return null;
     }
 
-    private Color replaceColor(ColorEnum color) {
-        return switch (color) {
-            case RED -> Color.RED;
-            case GREEN -> Color.GREEN;
-            case BLUE -> Color.BLUE;
-            case ORANGE -> Color.ORANGE;
-            case YELLOW -> Color.YELLOW;
-            case PURPLE -> Color.PURPLE;
-            default -> null;
-        };
-    }
-
-    public Color[] getColors() {
-        return new Color[]{replaceColor(stoneColor[0]), replaceColor(stoneColor[1])};
-    }
-
     public String toString() {
         return "Stone: " + stoneColor[0] + ", " + stoneColor[1];
     }
