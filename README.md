@@ -1,5 +1,4 @@
-# Bachelorthesis
-"Einfach Genial"
+# Einfach Genial
 
 Es wurde build automation verwendet.
 
