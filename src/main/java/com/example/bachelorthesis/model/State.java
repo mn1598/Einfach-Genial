@@ -17,7 +17,7 @@ public class State {
     private int numberOfNext;
     private List<State> nextStates;
 
-    // "Kopierkonstruktor" fuer Folgezustaende
+    // "Copyconstructor" for successor states
     public State(State state) {
         firstMove = false;
         numberOfNext = state.numberOfNext;
@@ -32,9 +32,8 @@ public class State {
         this.colorScores.putAll(state.colorScores);
     }
 
-    // Konstruktor zur erstmaligen initialisierung
+    // constructor for initial state
     public State() {
-        // initial state
         colorScores = new HashMap<>();
         colorScores.put(ColorEnum.RED, 0);
         colorScores.put(ColorEnum.BLUE, 0);
@@ -46,7 +45,6 @@ public class State {
         numberOfVisits = 0;
         firstMove = true;
         game = new Game();
-        //currentStone = game.drawStone();
         terminal = false;
     }
 
@@ -84,7 +82,6 @@ public class State {
                              */
                             if (j < len - 1) {
                                 if (gameBoard.representation[i][j + 1] == ColorEnum.NONE) {
-                                    // rota.NONE hinzufuegen
                                     State stateNew = new State(this);
                                     stateNew.putStoneOnField(currentStone, Rotation.NONE, i, j);
                                     stateNew.calculatePoints(currentStone, Rotation.NONE, i, j);
@@ -109,7 +106,6 @@ public class State {
                             //Rotation.ONE lower half
                             if (i >= 5 && i < 10 && j < len - 1) {
                                 if (gameBoard.representation[i + 1][j] == ColorEnum.NONE) {
-                                    // rota.ONE hinzufuegen
                                     State stateNew = new State(this);
                                     stateNew.putStoneOnField(currentStone, Rotation.ONE_CLOCKWISE, i, j);
                                     stateNew.calculatePoints(currentStone, Rotation.ONE_CLOCKWISE, i, j);
@@ -123,7 +119,6 @@ public class State {
                             //Rotation.TWO upper half
                             if (i < 5) {
                                 if (gameBoard.representation[i + 1][j] == ColorEnum.NONE) {
-                                    // rota.TWO hinzufuegen
                                     State stateNew = new State(this);
                                     stateNew.putStoneOnField(currentStone, Rotation.TWO_CLOCKWISE, i, j);
                                     stateNew.calculatePoints(currentStone, Rotation.TWO_CLOCKWISE, i, j);
@@ -134,7 +129,6 @@ public class State {
                             //Rotation.TWO lower half
                             if (i >= 5 && i < 10 && j > 0) {
                                 if (gameBoard.representation[i + 1][j - 1] == ColorEnum.NONE) {
-                                    // rota.TWO hinzufuegen
                                     State stateNew = new State(this);
                                     stateNew.putStoneOnField(currentStone, Rotation.TWO_CLOCKWISE, i, j);
                                     stateNew.calculatePoints(currentStone, Rotation.TWO_CLOCKWISE, i, j);
@@ -147,7 +141,6 @@ public class State {
                              */
                             if (j > 0) {
                                 if (gameBoard.representation[i][j - 1] == ColorEnum.NONE) {
-                                    // rota.THREE hinzufuegen
                                     State stateNew = new State(this);
                                     stateNew.putStoneOnField(currentStone, Rotation.THREE_CLOCKWISE, i, j);
                                     stateNew.calculatePoints(currentStone, Rotation.THREE_CLOCKWISE, i, j);
@@ -161,7 +154,6 @@ public class State {
                             //Rotation.FOUR upper half
                             if (i <= 5 && i > 0 && j > 0) {
                                 if (gameBoard.representation[i - 1][j - 1] == ColorEnum.NONE) {
-                                    // rota.FOUR hinzufuegen
                                     State stateNew = new State(this);
                                     stateNew.putStoneOnField(currentStone, Rotation.FOUR_CLOCKWISE, i, j);
                                     stateNew.calculatePoints(currentStone, Rotation.FOUR_CLOCKWISE, i, j);
@@ -172,7 +164,6 @@ public class State {
                             //Rotation.FOUR lower half
                             if (i > 5) {
                                 if (gameBoard.representation[i - 1][j] == ColorEnum.NONE) {
-                                    // rota.FOUR hinzufuegen
                                     State stateNew = new State(this);
                                     stateNew.putStoneOnField(currentStone, Rotation.FOUR_CLOCKWISE, i, j);
                                     stateNew.calculatePoints(currentStone, Rotation.FOUR_CLOCKWISE, i, j);
@@ -186,7 +177,6 @@ public class State {
                             //Rotation.FIVE upper half
                             if (i <= 5 && i > 0 && j < len - 1) {
                                 if (gameBoard.representation[i - 1][j] == ColorEnum.NONE) {
-                                    // rota.FIVE hinzufuegen
                                     State stateNew = new State(this);
                                     stateNew.putStoneOnField(currentStone, Rotation.FIVE_CLOCKWISE, i, j);
                                     stateNew.calculatePoints(currentStone, Rotation.FIVE_CLOCKWISE, i, j);
@@ -197,7 +187,6 @@ public class State {
                             //Rotation.FIVE lower half
                             if (i > 5) {
                                 if (gameBoard.representation[i - 1][j + 1] == ColorEnum.NONE) {
-                                    // rota.FIVE hinzufuegen
                                     State stateNew = new State(this);
                                     stateNew.putStoneOnField(currentStone, Rotation.FIVE_CLOCKWISE, i, j);
                                     stateNew.calculatePoints(currentStone, Rotation.FIVE_CLOCKWISE, i, j);
@@ -218,7 +207,7 @@ public class State {
 
     private List<State> checkFirstMove(Stone currentStone) {
         List<State> nextStates = new ArrayList<>();
-        // startpositionen überprüfen
+        // check starting position
         for (int i = 0; i < gameBoard.representation.length; i++) {
             int len = gameBoard.representation[i].length;
             for (int j = 0; j < len; j++) {
@@ -226,8 +215,6 @@ public class State {
                 // none
                 if (((i == 0 || i == 10) && (j == 1 || j == 3)) || ((i == 1 || i == 9) && (j != 2 && j != 3 && j != 6))
                         || ((i == 4 || i == 6) && (j == 0 || j == 8)) || (i == 5 && (j == 1 || j == 8))) {
-
-                    // rota.NONE hinzufuegen
                     State stateNew = new State(this);
                     stateNew.putStoneOnField(currentStone, Rotation.NONE, i, j);
                     stateNew.calculatePoints(currentStone, Rotation.NONE, i, j);
@@ -236,10 +223,8 @@ public class State {
 
                 // one
                 if ((i == 0 && (j == 1 || j == 4)) || (i == 1 && (j != 2 && j != 3 && j != 4)) || (i == 3 && j == 8)
-                        || (i == 4 && (j == 0 || j == 8)) || (i == 5 && (j == 1 || j == 9)) || (i == 6 && j == 0) || (i == 8 && (j == 0 ||
-                        j == 1 || j == 5 || j == 6)) || (i == 9 && (j == 0 || j == 1 || j == 4))) {
-
-                    // rota.ONE hinzufuegen
+                        || (i == 4 && (j == 0 || j == 8)) || (i == 5 && (j == 1 || j == 9)) || (i == 6 && j == 0)
+                        || (i == 8 && (j == 0 || j == 1 || j == 5 || j == 6)) || (i == 9 && (j == 0 || j == 1 || j == 4))) {
                     State stateNew = new State(this);
                     stateNew.putStoneOnField(currentStone, Rotation.ONE_CLOCKWISE, i, j);
                     stateNew.calculatePoints(currentStone, Rotation.ONE_CLOCKWISE, i, j);
@@ -250,8 +235,6 @@ public class State {
                 if ((i == 0 && (j == 1 || j == 4)) || (i == 1 && (j == 0 || j == 1 || j == 5 || j == 6)) || (i == 4 && (j == 0 || j == 1))
                         || (i == 5 && (j == 1 || j == 9)) || (i == 6 && j == 9) || (i == 8 && (j == 1 || j == 2 || j == 6 || j == 7))
                         || (i == 9 && (j == 2 || j == 5))) {
-
-                    // rota.TWO hinzufuegen
                     State stateNew = new State(this);
                     stateNew.putStoneOnField(currentStone, Rotation.TWO_CLOCKWISE, i, j);
                     stateNew.calculatePoints(currentStone, Rotation.TWO_CLOCKWISE, i, j);
@@ -261,8 +244,6 @@ public class State {
                 // three
                 if (((i == 0 || i == 10) && (j == 2 || j == 4)) || ((i == 1 || i == 9) && (j == 1 || j == 2 || j == 5 || j == 6))
                         || ((i == 4 || i == 6) && (j == 1 || j == 9)) || (i == 5 && (j == 2 || j == 9))) {
-
-                    // rota.THREE hinzufuegen
                     State stateNew = new State(this);
                     stateNew.putStoneOnField(currentStone, Rotation.THREE_CLOCKWISE, i, j);
                     stateNew.calculatePoints(currentStone, Rotation.THREE_CLOCKWISE, i, j);
@@ -273,8 +254,6 @@ public class State {
                 if ((i == 1 && (j == 2 || j == 5)) || (i == 2 && (j == 1 || j == 2 || j == 6 || j == 7)) || (i == 4 && j == 9)
                         || (i == 5 && (j == 1 || j == 9)) || (i == 6 && (j == 1 || j == 9)) || (i == 7 && j == 0)
                         || (i == 9 && (j == 0 || j == 1 || j == 5 || j == 6)) || (i == 10 && (j == 1 || j == 4))) {
-
-                    // rota.FOUR hinzufuegen
                     State stateNew = new State(this);
                     stateNew.putStoneOnField(currentStone, Rotation.FOUR_CLOCKWISE, i, j);
                     stateNew.calculatePoints(currentStone, Rotation.FOUR_CLOCKWISE, i, j);
@@ -285,8 +264,6 @@ public class State {
                 if ((i == 1 && (j == 1 || j == 4)) || (i == 2 && (j == 0 || j == 1 || j == 5 || j == 6)) || (i == 4 && j == 0)
                         || (i == 5 && (j == 1 || j == 9)) || (i == 6 && (j == 0 || j == 8)) || (i == 7 && j == 8) || (i == 9 &&
                         (j == 0 || j == 1 || j == 5 || j == 6)) || (i == 10 && (j == 1 || j == 4))) {
-
-                    // rota.FIVE hinzufuegen
                     State stateNew = new State(this);
                     stateNew.putStoneOnField(currentStone, Rotation.FIVE_CLOCKWISE, i, j);
                     stateNew.calculatePoints(currentStone, Rotation.FIVE_CLOCKWISE, i, j);
@@ -339,7 +316,6 @@ public class State {
     }
 
     public void calculatePoints(Stone stone, Rotation rotation, int i, int j) {
-        //System.out.println("start calculating points");
         int counter;
         for (int colorCounter = 0; colorCounter < 2; colorCounter++) { // sorgt dafuer, dass beide farben vom gelegten Stein geprüft werden
             for (counter = 0; counter < 6; counter++) { // sorgt dafuer, dass jede richtung gecheckt wird

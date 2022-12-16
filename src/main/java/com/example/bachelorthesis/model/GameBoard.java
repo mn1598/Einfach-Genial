@@ -41,7 +41,6 @@ public class GameBoard {
         for (int i = 0; i < representation.length; i++) {
             for (int j = 0; j < representation[i].length; j++) {
                 if (representation[i][j] == ColorEnum.NONE) {
-                    // test this method
                     // first row
                     if (i == 0) {
                         if (j == 1) {
