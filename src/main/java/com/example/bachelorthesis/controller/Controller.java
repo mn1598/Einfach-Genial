@@ -22,7 +22,7 @@ public class Controller {
 
     public void clickOnStart(ActionEvent event) {
         gui.reset();
-        MCTS ai = new MCTS(this);
+        MCTS ai = new MCTS(this, 3000);
         results = new ArrayList<>();
         try {
             Thread.sleep(1000);
@@ -49,7 +49,7 @@ public class Controller {
             throw new RuntimeException(e);
         }
         results = new ArrayList<>();
-        MCTS ai = new MCTS(this);
+        MCTS ai = new MCTS(this,0);
         Task<Void> task = new Task<>() {
             @Override
             protected Void call() throws Exception {
@@ -74,7 +74,7 @@ public class Controller {
         gui.getSidePane().experimentButton.setDisable(true);
         // hier wird das experiment mit 1000 spielen durchgeführt
         results = new ArrayList<>();
-        MCTS ai = new MCTS(this);
+        MCTS ai = new MCTS(this,3000);
         for (int i = 0; i < n; i++) {
             Platform.runLater(gui::reset);
             if (randomGame) {

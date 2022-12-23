@@ -9,11 +9,12 @@ import java.util.Random;
 
 public class MCTS {
 
-    private final int END_TIME = 3000;
+    private final int END_TIME;
     private Controller controller;
     private State initial;
 
-    public MCTS(Controller controller) {
+    public MCTS(Controller controller, int duration_of_simulation) {
+        this.END_TIME = duration_of_simulation;
         this.controller = controller;
     }
 
